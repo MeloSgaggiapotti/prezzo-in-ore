@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Is it enough now?</title>
+<title>Enough yet?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
 <style>
@@ -29,15 +29,11 @@
     font-family: 'Source Serif 4', serif;
     min-height: 100vh;
     padding: clamp(20px, 5vw, 64px) clamp(16px, 6vw, 24px);
-    background-image:
-      linear-gradient(var(--line) 1px, transparent 1px);
+    background-image: linear-gradient(var(--line) 1px, transparent 1px);
     background-size: 100% 40px;
   }
 
-  .wrap{
-    max-width: 760px;
-    margin: 0 auto;
-  }
+  .wrap{ max-width: 780px; margin: 0 auto; }
 
   .eyebrow{
     font-family: 'Space Mono', monospace;
@@ -61,24 +57,35 @@
     color: var(--slate);
     font-size: clamp(15px, 2vw, 17px);
     line-height: 1.55;
-    max-width: 54ch;
-    margin: 0 0 40px 0;
+    max-width: 58ch;
+    margin: 0 0 32px 0;
   }
-
   .sub strong{ color: var(--paper); font-weight: 600; }
 
-  /* ---- Timecard panel ---- */
-  .timecard{
+  .notice{
+    background: var(--ink-2);
+    border: 1px dashed var(--line-strong);
+    border-radius: 4px;
+    padding: 12px 16px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--slate);
+    margin-bottom: 32px;
+  }
+  .notice strong{ color: var(--amber); }
+
+  /* ---- City + mode panel ---- */
+  .setup{
     background: var(--ink-2);
     border: 1px solid var(--line-strong);
     border-radius: 4px;
     padding: 28px clamp(20px, 4vw, 32px);
-    margin-bottom: 36px;
+    margin-bottom: 24px;
     position: relative;
   }
-
-  .timecard::before{
-    content: "CARTELLINO";
+  .setup::before{
+    content: "LOCATION";
     position: absolute;
     top: -10px;
     left: 24px;
@@ -88,17 +95,6 @@
     font-size: 11px;
     letter-spacing: 0.16em;
     color: var(--slate);
-  }
-
-  .field-row{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-bottom: 4px;
-  }
-
-  @media (max-width: 480px){
-    .field-row{ grid-template-columns: 1fr; }
   }
 
   .field label{
@@ -111,6 +107,63 @@
     margin-bottom: 8px;
   }
 
+  select, input[type="number"], input[type="text"]{
+    font-family: 'Space Mono', monospace;
+    background: transparent;
+    color: var(--paper);
+    border: none;
+    outline: none;
+  }
+
+  .select-group{
+    display:flex;
+    align-items:center;
+    border-bottom: 1px solid var(--line-strong);
+    padding-bottom: 6px;
+    margin-bottom: 20px;
+  }
+  .select-group select{
+    width: 100%;
+    font-size: 18px;
+    padding: 4px 0;
+    appearance: none;
+    cursor: pointer;
+  }
+  .select-group select option{ background: var(--ink-2); color: var(--paper); }
+  .select-group .arrow{ color: var(--slate); font-size: 12px; }
+
+  .mode-toggle{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+  .mode-btn{
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    padding: 12px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--line-strong);
+    background: transparent;
+    color: var(--slate);
+    cursor: pointer;
+    text-align: center;
+    line-height: 1.4;
+  }
+  .mode-btn.active{
+    border-color: var(--amber);
+    color: var(--amber);
+    background: rgba(232,163,61,0.08);
+  }
+  .mode-btn:focus-visible{ outline: 2px solid var(--amber); outline-offset: 2px; }
+
+  .field-row{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 480px){ .field-row{ grid-template-columns: 1fr; } }
+
   .field .input-group{
     display:flex;
     align-items:baseline;
@@ -118,22 +171,12 @@
     padding-bottom: 6px;
     transition: border-color .15s ease;
   }
-
-  .field .input-group:focus-within{
-    border-color: var(--amber);
-  }
-
+  .field .input-group:focus-within{ border-color: var(--amber); }
   .field input[type="number"]{
-    background: transparent;
-    border: none;
-    outline: none;
-    color: var(--paper);
-    font-family: 'Space Mono', monospace;
-    font-size: 22px;
+    font-size: 20px;
     width: 100%;
     padding: 4px 0;
   }
-
   .field .unit{
     font-family: 'Space Mono', monospace;
     font-size: 13px;
@@ -141,6 +184,30 @@
     white-space: nowrap;
     margin-left: 8px;
   }
+  .field.readonly .input-group{ opacity: 0.55; }
+  .field.readonly input{ pointer-events: none; }
+
+  .fx-row{
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px dashed var(--line-strong);
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--slate);
+  }
+  .fx-row .fx-rate-input{
+    width: 90px;
+    border-bottom: 1px solid var(--line-strong);
+    color: var(--amber);
+    font-size: 13px;
+    text-align: right;
+  }
+  .fx-row.error{ color: var(--rust); }
 
   .hourly-out{
     margin-top: 22px;
@@ -152,7 +219,6 @@
     flex-wrap: wrap;
     gap: 12px;
   }
-
   .hourly-out .label{
     font-family: 'Space Mono', monospace;
     font-size: 12px;
@@ -160,7 +226,6 @@
     text-transform: uppercase;
     color: var(--slate);
   }
-
   .hourly-out .value{
     font-family: 'Space Mono', monospace;
     font-size: 26px;
@@ -169,13 +234,7 @@
   }
 
   /* ---- Ledger ---- */
-  .ledger-head{
-    display:flex;
-    align-items: baseline;
-    justify-content: space-between;
-    margin-bottom: 6px;
-  }
-
+  .ledger-head{ margin-bottom: 6px; }
   .ledger-head h2{
     font-family: 'Source Serif 4', serif;
     font-size: 20px;
@@ -185,29 +244,19 @@
 
   .item{
     display: grid;
-    grid-template-columns: 1.3fr 0.8fr auto;
+    grid-template-columns: 1.2fr 0.7fr 0.7fr auto;
     align-items: center;
     gap: 14px;
     padding: 16px 4px;
     border-bottom: 1px solid var(--line);
   }
-
-  @media (max-width: 560px){
-    .item{ grid-template-columns: 1fr; row-gap: 10px; }
+  @media (max-width: 640px){
+    .item{ grid-template-columns: 1fr 1fr; row-gap: 10px; }
     .item .stamp{ justify-self: start; }
   }
 
-  .item .name-field{
-    display:flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
+  .item .name-field{ display:flex; flex-direction: column; gap: 4px; }
   .item input.name{
-    background: transparent;
-    border: none;
-    outline: none;
-    color: var(--paper);
     font-family: 'Source Serif 4', serif;
     font-size: 17px;
     font-weight: 600;
@@ -223,22 +272,17 @@
     border-bottom: 1px solid var(--line-strong);
     padding-bottom: 4px;
   }
+  .item input.price{ font-size: 16px; width: 100%; }
+  .item .price-field .cur{ font-family: 'Space Mono', monospace; color: var(--slate); font-size: 13px; }
 
-  .item input.price{
-    background: transparent;
-    border: none;
-    outline: none;
-    color: var(--paper);
-    font-family: 'Space Mono', monospace;
-    font-size: 16px;
+  .item select.type-select{
+    font-size: 12px;
+    border-bottom: 1px solid var(--line-strong);
+    padding-bottom: 4px;
+    cursor: pointer;
     width: 100%;
   }
-
-  .item .price-field .cur{
-    font-family: 'Space Mono', monospace;
-    color: var(--slate);
-    font-size: 14px;
-  }
+  .item select.type-select option{ background: var(--ink-2); color: var(--paper); }
 
   .stamp{
     font-family: 'Space Mono', monospace;
@@ -252,7 +296,6 @@
     text-align: center;
     justify-self: end;
   }
-
   .stamp.sage{ color: var(--sage); }
   .stamp.amber{ color: var(--amber); }
   .stamp.rust{ color: var(--rust); }
@@ -267,23 +310,18 @@
     border: none;
     color: var(--slate);
     font-family: 'Space Mono', monospace;
-    font-size: 12px;
+    font-size: 11px;
     cursor: pointer;
-    padding: 4px 6px;
-    justify-self: start;
+    padding: 4px 0;
+    text-align: left;
   }
   .remove-btn:hover{ color: var(--rust); }
-  .remove-btn:focus-visible, button:focus-visible, input:focus-visible{
+  .remove-btn:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible{
     outline: 2px solid var(--amber);
     outline-offset: 2px;
   }
 
-  .add-row{
-    margin-top: 18px;
-    display: flex;
-    justify-content: center;
-  }
-
+  .add-row{ margin-top: 18px; display: flex; justify-content: center; }
   .add-btn{
     background: transparent;
     border: 1px dashed var(--line-strong);
@@ -298,15 +336,80 @@
   }
   .add-btn:hover{ border-color: var(--amber); color: var(--amber); }
 
+  /* ---- Summary panel ---- */
+  .summary{
+    margin-top: 36px;
+    background: var(--ink-2);
+    border: 1px solid var(--line-strong);
+    border-radius: 4px;
+    padding: 28px clamp(20px, 4vw, 32px);
+    position: relative;
+  }
+  .summary::before{
+    content: "MONTHLY RECAP";
+    position: absolute;
+    top: -10px;
+    left: 24px;
+    background: var(--ink);
+    padding: 0 10px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--slate);
+  }
+  .summary-row{
+    display:flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 8px 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    color: var(--slate);
+    border-bottom: 1px solid var(--line);
+  }
+  .summary-row .amt{ color: var(--paper); font-size: 14px; }
+  .summary-final{
+    margin-top: 18px;
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .summary-final .label{
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+  .summary-final .big-stamp{
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 22px;
+    padding: 10px 20px;
+    border: 2px dashed currentColor;
+    border-radius: 8px;
+    transform: rotate(-2deg);
+  }
+  .summary-final .big-stamp.sage{ color: var(--sage); }
+  .summary-final .big-stamp.amber{ color: var(--amber); }
+  .summary-final .big-stamp.rust{ color: var(--rust); }
+  .summary-sub{
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--slate);
+    margin-top: 6px;
+  }
+
   footer{
-    margin-top: 48px;
+    margin-top: 40px;
     padding-top: 20px;
     border-top: 1px solid var(--line);
     color: var(--slate);
     font-size: 13px;
     line-height: 1.6;
   }
-
   footer .legend{
     display:flex;
     gap: 18px;
@@ -325,87 +428,185 @@
 <body>
 
 <div class="wrap">
-  <p class="eyebrow">Il salario, contato in ore</p>
-  <h1>Is it enough now?</h1>
-  <p class="sub">Ogni prezzo è anche un numero di ore della tua vita. Inserisci il tuo stipendio e le tue ore settimanali: qui sotto ogni spesa viene <strong>timbrata</strong> con il tempo di lavoro che ti costa davvero.</p>
+  <p class="eyebrow">Wages, counted in hours</p>
+  <h1>Enough yet?</h1>
+  <p class="sub">Every price tag is also a number of hours of your life. Pick a city, choose whether you're bringing your own salary or living on the local average, and every expense gets <strong>stamped</strong> with the work-time it really costs.</p>
 
-  <div class="timecard">
+  <div class="notice">
+    <strong>Note:</strong> the salary and price figures for each city below are illustrative placeholders, not verified statistics. Replace them with real data (Eurostat, Numbeo, national statistics offices) before drawing conclusions. Exchange rates, when needed, are fetched live from the European Central Bank via the free Frankfurter API.
+  </div>
+
+  <div class="setup">
+    <div class="field" style="margin-bottom:4px;">
+      <label for="citySelect">City</label>
+      <div class="select-group">
+        <select id="citySelect"></select>
+        <span class="arrow">▾</span>
+      </div>
+    </div>
+
+    <div class="mode-toggle">
+      <button class="mode-btn" id="modeLocal" data-mode="local">Local average salary<br><span style="font-size:10px;opacity:0.7;">live like a local resident</span></button>
+      <button class="mode-btn" id="modeOwn" data-mode="own">Bring my own salary<br><span style="font-size:10px;opacity:0.7;">e.g. remote work, relocation</span></button>
+    </div>
+
     <div class="field-row">
-      <div class="field">
-        <label for="salary">Stipendio netto mensile</label>
+      <div class="field" id="salaryField">
+        <label for="salary">Net monthly salary</label>
         <div class="input-group">
-          <input type="number" id="salary" value="1600" min="0" step="10">
-          <span class="unit">€ / mese</span>
+          <input type="number" id="salary" value="2000" min="0" step="10">
+          <span class="unit" id="salaryCurrencyUnit">EUR</span>
         </div>
       </div>
-      <div class="field">
-        <label for="hours">Ore lavorate</label>
+      <div class="field" id="hoursField">
+        <label for="hours">Hours worked</label>
         <div class="input-group">
           <input type="number" id="hours" value="40" min="1" step="1">
-          <span class="unit">ore / settimana</span>
+          <span class="unit">hrs / week</span>
         </div>
       </div>
+    </div>
+
+    <div class="field-row" id="ownCurrencyRow" style="margin-top:16px;">
+      <div class="field">
+        <label for="ownCurrency">Your salary's currency</label>
+        <div class="select-group" style="margin-bottom:0;">
+          <select id="ownCurrency"></select>
+          <span class="arrow">▾</span>
+        </div>
+      </div>
+      <div></div>
+    </div>
+
+    <div class="fx-row" id="fxRow" style="display:none;">
+      <span id="fxLabel">Exchange rate</span>
+      <span>
+        1 <span id="fxFromCode"></span> =
+        <input type="number" class="fx-rate-input" id="fxRateInput" step="0.0001">
+        <span id="fxToCode"></span>
+      </span>
     </div>
 
     <div class="hourly-out">
-      <span class="label">Il tuo compenso orario</span>
-      <span class="value" id="hourlyRate">€ 9,23 / h</span>
+      <span class="label">Your hourly wage</span>
+      <span class="value" id="hourlyRate">—</span>
     </div>
   </div>
 
-  <div class="ledger-head">
-    <h2>Le tue spese</h2>
-  </div>
+  <div class="ledger-head"><h2>Your expenses</h2></div>
   <div id="items"></div>
 
   <div class="add-row">
-    <button class="add-btn" id="addItem">+ aggiungi una voce di spesa</button>
+    <button class="add-btn" id="addItem">+ add an expense</button>
+  </div>
+
+  <div class="summary">
+    <div class="summary-row"><span>Monthly income (local currency)</span><span class="amt" id="sumIncome">—</span></div>
+    <div class="summary-row"><span>Monthly recurring expenses</span><span class="amt" id="sumExpenses">—</span></div>
+    <div class="summary-final">
+      <span class="label">Left over each month</span>
+      <span class="big-stamp" id="sumLeftover">—</span>
+    </div>
+    <div class="summary-sub" id="sumLeftoverHours"></div>
+    <div class="summary-sub" id="sumLeftoverOwn"></div>
   </div>
 
   <footer>
     <div class="legend">
-      <span><span class="dot sage"></span> meno di 1 ora</span>
-      <span><span class="dot amber"></span> fino a una giornata (8h)</span>
-      <span><span class="dot rust"></span> più di una giornata di lavoro</span>
+      <span><span class="dot sage"></span> under 1 hour</span>
+      <span><span class="dot amber"></span> up to a full workday (8h)</span>
+      <span><span class="dot rust"></span> more than a full workday</span>
     </div>
-    I prezzi di default sono solo esempi di partenza — modificali con i numeri reali della tua città. Nulla viene salvato o inviato altrove: tutto il calcolo resta nel tuo browser.
+    "One-off" expenses (like a kilo of bread) are shown in work-hours but excluded from the monthly recap, since we don't know how often you buy them. "Monthly" expenses (rent, internet, phone) count toward the recap below. Nothing is saved or sent anywhere: everything runs in your browser.
   </footer>
 </div>
 
 <script>
-  const salaryInput = document.getElementById('salary');
-  const hoursInput = document.getElementById('hours');
-  const hourlyRateEl = document.getElementById('hourlyRate');
-  const itemsEl = document.getElementById('items');
-  const addBtn = document.getElementById('addItem');
+  const CURRENCIES = ["EUR","GBP","CHF","USD","PLN","CZK","HUF","RON","SEK","DKK","NOK","BGN"];
 
-  let items = [
-    { name: "Affitto medio (monolocale)", price: 550 },
-    { name: "1 kg di pane", price: 4 },
-    { name: "Connessione internet casa", price: 30 },
-    { name: "Abbonamento telefonico", price: 12 }
+  const CITIES = [
+    {
+      id: "catania", name: "Catania", country: "Italy", currency: "EUR",
+      salary: 1450, hoursWeek: 40,
+      items: [
+        { name: "Average rent (1-bed flat)", price: 400, type: "monthly" },
+        { name: "1 kg of bread", price: 2.6, type: "one-off" },
+        { name: "Home internet", price: 25, type: "monthly" },
+        { name: "Phone plan", price: 10, type: "monthly" }
+      ]
+    },
+    {
+      id: "berlin", name: "Berlin", country: "Germany", currency: "EUR",
+      salary: 2400, hoursWeek: 38,
+      items: [
+        { name: "Average rent (1-bed flat)", price: 950, type: "monthly" },
+        { name: "1 kg of bread", price: 3.2, type: "one-off" },
+        { name: "Home internet", price: 32, type: "monthly" },
+        { name: "Phone plan", price: 15, type: "monthly" }
+      ]
+    },
+    {
+      id: "warsaw", name: "Warsaw", country: "Poland", currency: "PLN",
+      salary: 7200, hoursWeek: 40,
+      items: [
+        { name: "Average rent (1-bed flat)", price: 3200, type: "monthly" },
+        { name: "1 kg of bread", price: 8, type: "one-off" },
+        { name: "Home internet", price: 60, type: "monthly" },
+        { name: "Phone plan", price: 40, type: "monthly" }
+      ]
+    },
+    {
+      id: "london", name: "London", country: "United Kingdom", currency: "GBP",
+      salary: 2900, hoursWeek: 40,
+      items: [
+        { name: "Average rent (1-bed flat)", price: 1500, type: "monthly" },
+        { name: "1 kg of bread", price: 2.2, type: "one-off" },
+        { name: "Home internet", price: 28, type: "monthly" },
+        { name: "Phone plan", price: 14, type: "monthly" }
+      ]
+    },
+    {
+      id: "zurich", name: "Zurich", country: "Switzerland", currency: "CHF",
+      salary: 6200, hoursWeek: 42,
+      items: [
+        { name: "Average rent (1-bed flat)", price: 1700, type: "monthly" },
+        { name: "1 kg of bread", price: 4.5, type: "one-off" },
+        { name: "Home internet", price: 55, type: "monthly" },
+        { name: "Phone plan", price: 25, type: "monthly" }
+      ]
+    }
   ];
 
-  function euro(n){
-    return n.toLocaleString('it-IT', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  }
+  // ---- state ----
+  let currentCityId = "catania";
+  let mode = "local"; // 'local' | 'own'
+  let ownSalary = 2000;
+  let ownCurrency = "EUR";
+  let ownHours = 40;
+  let fxRate = 1;       // 1 ownCurrency = fxRate cityCurrency
+  let fxStatus = "idle"; // idle | loading | ok | error
+  let items = [];
 
-  function hourlyWage(){
-    const salary = parseFloat(salaryInput.value) || 0;
-    const hoursWeek = parseFloat(hoursInput.value) || 1;
-    // monthly salary -> monthly hours (avg 4.345 weeks/month)
-    const monthlyHours = hoursWeek * 4.345;
-    return monthlyHours > 0 ? salary / monthlyHours : 0;
+  function getCity(){ return CITIES.find(c => c.id === currentCityId); }
+
+  function fmtMoney(amount, currency){
+    try{
+      return new Intl.NumberFormat('en', { style: 'currency', currency }).format(amount);
+    } catch(e){
+      return `${amount.toFixed(2)} ${currency}`;
+    }
   }
 
   function formatHours(h){
-    if(h <= 0) return "0m";
-    const totalMinutes = Math.round(h * 60);
+    const sign = h < 0 ? "-" : "";
+    const abs = Math.abs(h);
+    if(abs <= 0) return "0m";
+    const totalMinutes = Math.round(abs * 60);
     const hh = Math.floor(totalMinutes / 60);
     const mm = totalMinutes % 60;
-    if(hh === 0) return `${mm}m`;
-    if(mm === 0) return `${hh}h`;
-    return `${hh}h ${mm}m`;
+    if(hh === 0) return `${sign}${mm}m`;
+    if(mm === 0) return `${sign}${hh}h`;
+    return `${sign}${hh}h ${mm}m`;
   }
 
   function stampClass(h){
@@ -414,26 +615,135 @@
     return 'rust';
   }
 
-  function render(){
-    const wage = hourlyWage();
-    hourlyRateEl.textContent = `€ ${euro(wage)} / h`;
+  function loadCityItems(){
+    const city = getCity();
+    items = city.items.map(i => ({ ...i }));
+  }
 
+  async function fetchFx(){
+    const city = getCity();
+    if(ownCurrency === city.currency){
+      fxRate = 1; fxStatus = "ok"; render(); return;
+    }
+    fxStatus = "loading"; render();
+    try{
+      const res = await fetch(`https://api.frankfurter.dev/v1/latest?base=${ownCurrency}&symbols=${city.currency}`);
+      if(!res.ok) throw new Error("bad response");
+      const data = await res.json();
+      const rate = data.rates[city.currency];
+      if(typeof rate !== "number") throw new Error("no rate");
+      fxRate = rate;
+      fxStatus = "ok";
+    } catch(e){
+      fxStatus = "error";
+    }
+    render();
+  }
+
+  function hourlyWageLocal(){
+    const city = getCity();
+    if(mode === "local"){
+      return city.salary / (city.hoursWeek * 4.345);
+    } else {
+      const localSalary = ownSalary * fxRate;
+      return localSalary / (ownHours * 4.345);
+    }
+  }
+
+  function monthlyIncomeLocal(){
+    const city = getCity();
+    return mode === "local" ? city.salary : ownSalary * fxRate;
+  }
+
+  function populateSelects(){
+    const citySelect = document.getElementById('citySelect');
+    citySelect.innerHTML = CITIES.map(c => `<option value="${c.id}">${c.name}, ${c.country} (${c.currency})</option>`).join('');
+    citySelect.value = currentCityId;
+
+    const ownCurrencySelect = document.getElementById('ownCurrency');
+    ownCurrencySelect.innerHTML = CURRENCIES.map(c => `<option value="${c}">${c}</option>`).join('');
+    ownCurrencySelect.value = ownCurrency;
+  }
+
+  function render(){
+    const city = getCity();
+
+    // mode buttons
+    document.getElementById('modeLocal').classList.toggle('active', mode === 'local');
+    document.getElementById('modeOwn').classList.toggle('active', mode === 'own');
+
+    // salary/hours fields
+    const salaryInput = document.getElementById('salary');
+    const hoursInput = document.getElementById('hours');
+    const salaryField = document.getElementById('salaryField');
+    const hoursField = document.getElementById('hoursField');
+    const salaryCurrencyUnit = document.getElementById('salaryCurrencyUnit');
+    const ownCurrencyRow = document.getElementById('ownCurrencyRow');
+    const fxRow = document.getElementById('fxRow');
+
+    if(mode === 'local'){
+      salaryInput.value = city.salary;
+      hoursInput.value = city.hoursWeek;
+      salaryCurrencyUnit.textContent = city.currency;
+      salaryField.classList.add('readonly');
+      hoursField.classList.add('readonly');
+      ownCurrencyRow.style.display = 'none';
+      fxRow.style.display = 'none';
+    } else {
+      salaryInput.value = ownSalary;
+      hoursInput.value = ownHours;
+      salaryCurrencyUnit.textContent = ownCurrency;
+      salaryField.classList.remove('readonly');
+      hoursField.classList.remove('readonly');
+      ownCurrencyRow.style.display = 'grid';
+
+      if(ownCurrency === city.currency){
+        fxRow.style.display = 'none';
+      } else {
+        fxRow.style.display = 'flex';
+        fxRow.classList.toggle('error', fxStatus === 'error');
+        document.getElementById('fxFromCode').textContent = ownCurrency;
+        document.getElementById('fxToCode').textContent = city.currency;
+        const fxLabel = document.getElementById('fxLabel');
+        const fxInput = document.getElementById('fxRateInput');
+        if(fxStatus === 'loading'){
+          fxLabel.textContent = 'Fetching live rate…';
+        } else if(fxStatus === 'error'){
+          fxLabel.textContent = 'Couldn\'t fetch live rate — enter manually:';
+        } else {
+          fxLabel.textContent = 'Exchange rate (live, ECB)';
+        }
+        if(document.activeElement !== fxInput){
+          fxInput.value = fxRate;
+        }
+      }
+    }
+
+    // hourly wage
+    const wage = hourlyWageLocal();
+    document.getElementById('hourlyRate').textContent = `${fmtMoney(wage, city.currency)} / h`;
+
+    // items
+    const itemsEl = document.getElementById('items');
     itemsEl.innerHTML = '';
     items.forEach((item, idx) => {
       const hours = wage > 0 ? item.price / wage : 0;
       const cls = stampClass(hours);
-
       const row = document.createElement('div');
       row.className = 'item';
       row.innerHTML = `
         <div class="name-field">
-          <input class="name" type="text" value="${item.name.replace(/"/g,'&quot;')}" data-idx="${idx}" data-field="name" aria-label="Nome voce di spesa">
-          <button class="remove-btn" data-idx="${idx}" aria-label="Rimuovi voce">rimuovi</button>
+          <input class="name" type="text" value="${item.name.replace(/"/g,'&quot;')}" data-idx="${idx}" data-field="name" aria-label="Expense name">
+          <button class="remove-btn" data-idx="${idx}" aria-label="Remove expense">remove</button>
         </div>
         <div class="price-field">
-          <span class="cur">€</span>
-          <input class="price" type="number" min="0" step="0.5" value="${item.price}" data-idx="${idx}" data-field="price" aria-label="Prezzo in euro">
+          <span class="cur">${city.currency}</span>
+          <input class="price" type="number" min="0" step="0.5" value="${item.price}" data-idx="${idx}" data-field="price" aria-label="Price">
         </div>
+        <select class="type-select" data-idx="${idx}" aria-label="Expense frequency">
+          <option value="monthly" ${item.type==='monthly'?'selected':''}>Monthly</option>
+          <option value="one-off" ${item.type==='one-off'?'selected':''}>One-off</option>
+        </select>
         <div class="stamp ${cls}">≈ ${formatHours(hours)}</div>
       `;
       itemsEl.appendChild(row);
@@ -444,25 +754,31 @@
         const idx = parseInt(e.target.dataset.idx);
         const field = e.target.dataset.field;
         items[idx][field] = field === 'price' ? (parseFloat(e.target.value) || 0) : e.target.value;
-        // re-render but keep focus by only updating stamps/rate, simplest: full render is fine since idx stable
-        renderStampsOnly();
+        renderStampsAndSummary();
       });
     });
-
+    itemsEl.querySelectorAll('select.type-select').forEach(sel => {
+      sel.addEventListener('change', (e) => {
+        const idx = parseInt(e.target.dataset.idx);
+        items[idx].type = e.target.value;
+        renderStampsAndSummary();
+      });
+    });
     itemsEl.querySelectorAll('.remove-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
-        const idx = parseInt(e.target.dataset.idx);
-        items.splice(idx, 1);
+        items.splice(parseInt(e.target.dataset.idx), 1);
         render();
       });
     });
+
+    renderSummary();
   }
 
-  // lightweight update that doesn't rebuild inputs (preserves focus while typing)
-  function renderStampsOnly(){
-    const wage = hourlyWage();
-    hourlyRateEl.textContent = `€ ${euro(wage)} / h`;
-    const rows = itemsEl.querySelectorAll('.item');
+  function renderStampsAndSummary(){
+    const city = getCity();
+    const wage = hourlyWageLocal();
+    document.getElementById('hourlyRate').textContent = `${fmtMoney(wage, city.currency)} / h`;
+    const rows = document.querySelectorAll('#items .item');
     rows.forEach((row, idx) => {
       const item = items[idx];
       const hours = wage > 0 ? item.price / wage : 0;
@@ -471,16 +787,75 @@
       stampEl.textContent = `≈ ${formatHours(hours)}`;
       stampEl.className = `stamp ${cls}`;
     });
+    renderSummary();
   }
 
-  salaryInput.addEventListener('input', renderStampsOnly);
-  hoursInput.addEventListener('input', renderStampsOnly);
+  function renderSummary(){
+    const city = getCity();
+    const wage = hourlyWageLocal();
+    const income = monthlyIncomeLocal();
+    const recurring = items.filter(i => i.type === 'monthly').reduce((s,i) => s + i.price, 0);
+    const leftover = income - recurring;
+    const leftoverHours = wage > 0 ? leftover / wage : 0;
 
-  addBtn.addEventListener('click', () => {
-    items.push({ name: "Nuova voce", price: 0 });
+    document.getElementById('sumIncome').textContent = fmtMoney(income, city.currency);
+    document.getElementById('sumExpenses').textContent = fmtMoney(recurring, city.currency);
+
+    const stampEl = document.getElementById('sumLeftover');
+    stampEl.textContent = fmtMoney(leftover, city.currency);
+    const ratio = income > 0 ? leftover / income : 0;
+    stampEl.className = 'big-stamp ' + (ratio < 0 ? 'rust' : (ratio < 0.15 ? 'amber' : 'sage'));
+
+    document.getElementById('sumLeftoverHours').textContent =
+      `That's about ${formatHours(leftoverHours)} of work${leftover < 0 ? " you're short each month" : " worth of margin each month"}.`;
+
+    const hoursEl = document.getElementById('sumLeftoverOwn');
+    if(mode === 'own' && ownCurrency !== city.currency && fxRate > 0){
+      const leftoverOwn = leftover / fxRate;
+      hoursEl.textContent = `Equivalent to roughly ${fmtMoney(leftoverOwn, ownCurrency)} in your own currency.`;
+    } else {
+      hoursEl.textContent = '';
+    }
+  }
+
+  // ---- events ----
+  document.getElementById('citySelect').addEventListener('change', (e) => {
+    currentCityId = e.target.value;
+    loadCityItems();
+    if(mode === 'own') fetchFx(); else render();
+  });
+
+  document.getElementById('modeLocal').addEventListener('click', () => { mode = 'local'; render(); });
+  document.getElementById('modeOwn').addEventListener('click', () => { mode = 'own'; fetchFx(); });
+
+  document.getElementById('salary').addEventListener('input', (e) => {
+    if(mode !== 'own') return;
+    ownSalary = parseFloat(e.target.value) || 0;
+    renderStampsAndSummary();
+  });
+  document.getElementById('hours').addEventListener('input', (e) => {
+    if(mode !== 'own') return;
+    ownHours = parseFloat(e.target.value) || 1;
+    renderStampsAndSummary();
+  });
+  document.getElementById('ownCurrency').addEventListener('change', (e) => {
+    ownCurrency = e.target.value;
+    fetchFx();
+  });
+  document.getElementById('fxRateInput').addEventListener('input', (e) => {
+    fxRate = parseFloat(e.target.value) || 0;
+    fxStatus = 'ok';
+    renderStampsAndSummary();
+  });
+
+  document.getElementById('addItem').addEventListener('click', () => {
+    items.push({ name: "New expense", price: 0, type: "monthly" });
     render();
   });
 
+  // ---- init ----
+  populateSelects();
+  loadCityItems();
   render();
 </script>
 
