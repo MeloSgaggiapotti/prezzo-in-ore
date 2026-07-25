@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prezzo in Ore</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink: #1B1F2B;
+    --ink-2: #232939;
+    --ink-3: #2B3245;
+    --paper: #F2ECDD;
+    --amber: #E8A33D;
+    --rust: #C1440E;
+    --sage: #6B8F71;
+    --slate: #8A93A6;
+    --line: rgba(242,236,221,0.14);
+    --line-strong: rgba(242,236,221,0.28);
+  }
+
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+
+  body{
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Source Serif 4', serif;
+    min-height: 100vh;
+    padding: clamp(20px, 5vw, 64px) clamp(16px, 6vw, 24px);
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px);
+    background-size: 100% 40px;
+  }
+
+  .wrap{
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .eyebrow{
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin: 0 0 10px 0;
+  }
+
+  h1{
+    font-family: 'Source Serif 4', serif;
+    font-weight: 700;
+    font-size: clamp(32px, 6vw, 52px);
+    line-height: 1.05;
+    margin: 0 0 14px 0;
+    letter-spacing: -0.01em;
+  }
+
+  .sub{
+    color: var(--slate);
+    font-size: clamp(15px, 2vw, 17px);
+    line-height: 1.55;
+    max-width: 54ch;
+    margin: 0 0 40px 0;
+  }
+
+  .sub strong{ color: var(--paper); font-weight: 600; }
+
+  /* ---- Timecard panel ---- */
+  .timecard{
+    background: var(--ink-2);
+    border: 1px solid var(--line-strong);
+    border-radius: 4px;
+    padding: 28px clamp(20px, 4vw, 32px);
+    margin-bottom: 36px;
+    position: relative;
+  }
+
+  .timecard::before{
+    content: "CARTELLINO";
+    position: absolute;
+    top: -10px;
+    left: 24px;
+    background: var(--ink);
+    padding: 0 10px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--slate);
+  }
+
+  .field-row{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 4px;
+  }
+
+  @media (max-width: 480px){
+    .field-row{ grid-template-columns: 1fr; }
+  }
+
+  .field label{
+    display:block;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 8px;
+  }
+
+  .field .input-group{
+    display:flex;
+    align-items:baseline;
+    border-bottom: 1px solid var(--line-strong);
+    padding-bottom: 6px;
+    transition: border-color .15s ease;
+  }
+
+  .field .input-group:focus-within{
+    border-color: var(--amber);
+  }
+
+  .field input[type="number"]{
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--paper);
+    font-family: 'Space Mono', monospace;
+    font-size: 22px;
+    width: 100%;
+    padding: 4px 0;
+  }
+
+  .field .unit{
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    color: var(--slate);
+    white-space: nowrap;
+    margin-left: 8px;
+  }
+
+  .hourly-out{
+    margin-top: 22px;
+    padding-top: 20px;
+    border-top: 1px dashed var(--line-strong);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .hourly-out .label{
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+
+  .hourly-out .value{
+    font-family: 'Space Mono', monospace;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--amber);
+  }
+
+  /* ---- Ledger ---- */
+  .ledger-head{
+    display:flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .ledger-head h2{
+    font-family: 'Source Serif 4', serif;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .item{
+    display: grid;
+    grid-template-columns: 1.3fr 0.8fr auto;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 4px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  @media (max-width: 560px){
+    .item{ grid-template-columns: 1fr; row-gap: 10px; }
+    .item .stamp{ justify-self: start; }
+  }
+
+  .item .name-field{
+    display:flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .item input.name{
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--paper);
+    font-family: 'Source Serif 4', serif;
+    font-size: 17px;
+    font-weight: 600;
+    padding: 2px 0;
+    border-bottom: 1px solid transparent;
+  }
+  .item input.name:focus{ border-bottom: 1px solid var(--amber); }
+
+  .item .price-field{
+    display:flex;
+    align-items: baseline;
+    gap: 6px;
+    border-bottom: 1px solid var(--line-strong);
+    padding-bottom: 4px;
+  }
+
+  .item input.price{
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--paper);
+    font-family: 'Space Mono', monospace;
+    font-size: 16px;
+    width: 100%;
+  }
+
+  .item .price-field .cur{
+    font-family: 'Space Mono', monospace;
+    color: var(--slate);
+    font-size: 14px;
+  }
+
+  .stamp{
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 8px 14px;
+    border: 2px dashed currentColor;
+    border-radius: 30px;
+    transform: rotate(-3deg);
+    white-space: nowrap;
+    text-align: center;
+    justify-self: end;
+  }
+
+  .stamp.sage{ color: var(--sage); }
+  .stamp.amber{ color: var(--amber); }
+  .stamp.rust{ color: var(--rust); }
+
+  @media (prefers-reduced-motion: no-preference){
+    .stamp{ transition: transform .2s ease; }
+    .item:hover .stamp{ transform: rotate(0deg) scale(1.04); }
+  }
+
+  .remove-btn{
+    background: none;
+    border: none;
+    color: var(--slate);
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 4px 6px;
+    justify-self: start;
+  }
+  .remove-btn:hover{ color: var(--rust); }
+  .remove-btn:focus-visible, button:focus-visible, input:focus-visible{
+    outline: 2px solid var(--amber);
+    outline-offset: 2px;
+  }
+
+  .add-row{
+    margin-top: 18px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .add-btn{
+    background: transparent;
+    border: 1px dashed var(--line-strong);
+    color: var(--paper);
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    padding: 12px 22px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+  }
+  .add-btn:hover{ border-color: var(--amber); color: var(--amber); }
+
+  footer{
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    color: var(--slate);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  footer .legend{
+    display:flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+  }
+  footer .legend span{ display:flex; align-items:center; gap:6px; }
+  footer .dot{ width:8px; height:8px; border-radius:50%; display:inline-block; }
+  .dot.sage{ background: var(--sage); }
+  .dot.amber{ background: var(--amber); }
+  .dot.rust{ background: var(--rust); }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <p class="eyebrow">Il salario, contato in ore</p>
+  <h1>Prezzo in ore.</h1>
+  <p class="sub">Ogni prezzo è anche un numero di ore della tua vita. Inserisci il tuo stipendio e le tue ore settimanali: qui sotto ogni spesa viene <strong>timbrata</strong> con il tempo di lavoro che ti costa davvero.</p>
+
+  <div class="timecard">
+    <div class="field-row">
+      <div class="field">
+        <label for="salary">Stipendio netto mensile</label>
+        <div class="input-group">
+          <input type="number" id="salary" value="1600" min="0" step="10">
+          <span class="unit">€ / mese</span>
+        </div>
+      </div>
+      <div class="field">
+        <label for="hours">Ore lavorate</label>
+        <div class="input-group">
+          <input type="number" id="hours" value="40" min="1" step="1">
+          <span class="unit">ore / settimana</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hourly-out">
+      <span class="label">Il tuo compenso orario</span>
+      <span class="value" id="hourlyRate">€ 9,23 / h</span>
+    </div>
+  </div>
+
+  <div class="ledger-head">
+    <h2>Le tue spese</h2>
+  </div>
+  <div id="items"></div>
+
+  <div class="add-row">
+    <button class="add-btn" id="addItem">+ aggiungi una voce di spesa</button>
+  </div>
+
+  <footer>
+    <div class="legend">
+      <span><span class="dot sage"></span> meno di 1 ora</span>
+      <span><span class="dot amber"></span> fino a una giornata (8h)</span>
+      <span><span class="dot rust"></span> più di una giornata di lavoro</span>
+    </div>
+    I prezzi di default sono solo esempi di partenza — modificali con i numeri reali della tua città. Nulla viene salvato o inviato altrove: tutto il calcolo resta nel tuo browser.
+  </footer>
+</div>
+
+<script>
+  const salaryInput = document.getElementById('salary');
+  const hoursInput = document.getElementById('hours');
+  const hourlyRateEl = document.getElementById('hourlyRate');
+  const itemsEl = document.getElementById('items');
+  const addBtn = document.getElementById('addItem');
+
+  let items = [
+    { name: "Affitto medio (monolocale)", price: 550 },
+    { name: "1 kg di pane", price: 4 },
+    { name: "Connessione internet casa", price: 30 },
+    { name: "Abbonamento telefonico", price: 12 }
+  ];
+
+  function euro(n){
+    return n.toLocaleString('it-IT', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function hourlyWage(){
+    const salary = parseFloat(salaryInput.value) || 0;
+    const hoursWeek = parseFloat(hoursInput.value) || 1;
+    // monthly salary -> monthly hours (avg 4.345 weeks/month)
+    const monthlyHours = hoursWeek * 4.345;
+    return monthlyHours > 0 ? salary / monthlyHours : 0;
+  }
+
+  function formatHours(h){
+    if(h <= 0) return "0m";
+    const totalMinutes = Math.round(h * 60);
+    const hh = Math.floor(totalMinutes / 60);
+    const mm = totalMinutes % 60;
+    if(hh === 0) return `${mm}m`;
+    if(mm === 0) return `${hh}h`;
+    return `${hh}h ${mm}m`;
+  }
+
+  function stampClass(h){
+    if(h < 1) return 'sage';
+    if(h <= 8) return 'amber';
+    return 'rust';
+  }
+
+  function render(){
+    const wage = hourlyWage();
+    hourlyRateEl.textContent = `€ ${euro(wage)} / h`;
+
+    itemsEl.innerHTML = '';
+    items.forEach((item, idx) => {
+      const hours = wage > 0 ? item.price / wage : 0;
+      const cls = stampClass(hours);
+
+      const row = document.createElement('div');
+      row.className = 'item';
+      row.innerHTML = `
+        <div class="name-field">
+          <input class="name" type="text" value="${item.name.replace(/"/g,'&quot;')}" data-idx="${idx}" data-field="name" aria-label="Nome voce di spesa">
+          <button class="remove-btn" data-idx="${idx}" aria-label="Rimuovi voce">rimuovi</button>
+        </div>
+        <div class="price-field">
+          <span class="cur">€</span>
+          <input class="price" type="number" min="0" step="0.5" value="${item.price}" data-idx="${idx}" data-field="price" aria-label="Prezzo in euro">
+        </div>
+        <div class="stamp ${cls}">≈ ${formatHours(hours)}</div>
+      `;
+      itemsEl.appendChild(row);
+    });
+
+    itemsEl.querySelectorAll('input[data-field]').forEach(inp => {
+      inp.addEventListener('input', (e) => {
+        const idx = parseInt(e.target.dataset.idx);
+        const field = e.target.dataset.field;
+        items[idx][field] = field === 'price' ? (parseFloat(e.target.value) || 0) : e.target.value;
+        // re-render but keep focus by only updating stamps/rate, simplest: full render is fine since idx stable
+        renderStampsOnly();
+      });
+    });
+
+    itemsEl.querySelectorAll('.remove-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idx = parseInt(e.target.dataset.idx);
+        items.splice(idx, 1);
+        render();
+      });
+    });
+  }
+
+  // lightweight update that doesn't rebuild inputs (preserves focus while typing)
+  function renderStampsOnly(){
+    const wage = hourlyWage();
+    hourlyRateEl.textContent = `€ ${euro(wage)} / h`;
+    const rows = itemsEl.querySelectorAll('.item');
+    rows.forEach((row, idx) => {
+      const item = items[idx];
+      const hours = wage > 0 ? item.price / wage : 0;
+      const cls = stampClass(hours);
+      const stampEl = row.querySelector('.stamp');
+      stampEl.textContent = `≈ ${formatHours(hours)}`;
+      stampEl.className = `stamp ${cls}`;
+    });
+  }
+
+  salaryInput.addEventListener('input', renderStampsOnly);
+  hoursInput.addEventListener('input', renderStampsOnly);
+
+  addBtn.addEventListener('click', () => {
+    items.push({ name: "Nuova voce", price: 0 });
+    render();
+  });
+
+  render();
+</script>
+
+</body>
+</html>
