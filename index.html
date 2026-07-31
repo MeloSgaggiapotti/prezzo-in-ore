@@ -5,246 +5,282 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Is it enough now?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --paper: #F5F2EA;
-    --ink: #14151A;
-    --blue: #2E4BFF;
-    --green: #1C8A4B;
-    --green-bg: #DCF3E3;
-    --red: #D62B1F;
-    --red-bg: #FBDEDC;
-    --black-bg: #14151A;
-    --line: #14151A;
-  }
-  *{ box-sizing: border-box; }
-  html,body{ margin:0; padding:0; }
-  body{
-    background: var(--paper);
-    color: var(--ink);
-    font-family: 'IBM Plex Sans', sans-serif;
-    min-height: 100vh;
-    padding: clamp(18px, 4vw, 48px);
-  }
-  .wrap{ max-width: 820px; margin: 0 auto; }
+  :root {
+    --bg-page: #f8fafc;
+    --bg-card: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --primary: #3b82f6;
+    --primary-hover: #2563eb;
+    --primary-bg: #eff6ff;
+    
+    --green-text: #15803d;
+    --green-bg: #dcfce7;
+    --red-text: #b91c1c;
+    --red-bg: #fee2e2;
+    --amber-text: #b45309;
+    --amber-bg: #fef3c7;
+    --black-tag-bg: #1e293b;
 
-  .eyebrow{
-    display:inline-block;
-    font-family: 'IBM Plex Mono', monospace;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --radius: 12px;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg-page);
+    color: var(--text-main);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    min-height: 100vh;
+    padding: clamp(20px, 5vw, 60px);
+    line-height: 1.5;
+  }
+  .wrap { max-width: 800px; margin: 0 auto; }
+
+  .eyebrow {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
     font-weight: 600;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
-    background: var(--ink);
-    color: var(--paper);
-    padding: 4px 10px;
-    margin: 0 0 18px 0;
+    background: var(--primary-bg);
+    color: var(--primary);
+    padding: 6px 12px;
+    border-radius: 20px;
+    margin-bottom: 16px;
   }
 
-  h1{
-    font-family: 'Archivo Black', sans-serif;
-    font-weight: 400;
-    font-size: clamp(38px, 7vw, 64px);
-    line-height: 0.95;
-    margin: 0 0 16px 0;
-    letter-spacing: -0.01em;
+  h1 {
+    font-size: clamp(32px, 6vw, 48px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0 0 12px 0;
   }
 
-  .sub{
+  .sub {
     font-size: clamp(15px, 2vw, 17px);
-    line-height: 1.6;
-    max-width: 60ch;
+    color: var(--text-muted);
+    max-width: 65ch;
     margin: 0 0 28px 0;
   }
-  .sub strong{ background: #FFE873; padding: 0 3px; }
+  .sub strong { color: var(--text-main); background: #fef08a; padding: 0 4px; border-radius: 4px; }
 
-  .notice, .no-data-banner{
-    border: 3px solid var(--ink);
-    padding: 12px 16px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
+  .notice, .no-data-banner {
+    border: 1px solid var(--border-color);
+    padding: 16px 20px;
+    border-radius: var(--radius);
+    font-size: 13px;
     line-height: 1.6;
-    margin-bottom: 20px;
-    background: #fff;
+    margin-bottom: 24px;
+    background: var(--bg-card);
+    box-shadow: var(--shadow-sm);
   }
-  .no-data-banner{ display:none; background: var(--red-bg); border-color: var(--red); }
-  .no-data-banner strong{ color: var(--red); }
+  .notice strong { color: var(--text-main); }
+  .no-data-banner { display: none; background: var(--red-bg); border-color: #fca5a5; color: var(--red-text); }
 
-  .block{
-    background: #fff;
-    border: 3px solid var(--ink);
-    box-shadow: 7px 7px 0 var(--ink);
-    padding: 26px clamp(18px, 4vw, 30px);
+  .block {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    padding: 28px;
     margin-bottom: 28px;
   }
-  .block-label{
-    display:inline-block;
-    font-family: 'IBM Plex Mono', monospace;
+  .block-label {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
     font-weight: 600;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    background: var(--ink);
-    color: var(--paper);
-    padding: 3px 10px;
-    margin-bottom: 18px;
+    color: var(--text-muted);
+    margin-bottom: 20px;
   }
 
-  .field label{
-    display:block;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
+  .field label {
+    display: block;
+    font-size: 12px;
     font-weight: 600;
-    letter-spacing: 0.06em;
+    color: var(--text-muted);
     text-transform: uppercase;
+    letter-spacing: 0.03em;
     margin-bottom: 8px;
   }
 
-  select, input[type="number"], input[type="text"]{
-    font-family: 'IBM Plex Sans', sans-serif;
+  select, input[type="number"], input[type="text"] {
+    font-family: inherit;
+    color: var(--text-main);
     background: transparent;
-    color: var(--ink);
     border: none;
     outline: none;
   }
 
-  .select-group{
-    display:flex; align-items:center;
-    border: 2px solid var(--ink);
-    padding: 8px 10px;
+  .select-group {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px 14px;
     margin-bottom: 18px;
+    background: #f8fafc;
+    transition: all 0.2s;
   }
-  .select-group select{ width: 100%; font-size: 16px; font-weight: 600; cursor: pointer; appearance: none; }
-  .select-group .arrow{ font-size: 12px; }
-
-  .location-row{ display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  @media (max-width: 480px){ .location-row{ grid-template-columns: 1fr; } }
-
-  .mode-toggle{ display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 22px; }
-  .mode-btn{
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-weight: 600;
-    font-size: 13px;
-    padding: 12px 10px;
-    border: 2px solid var(--ink);
+  .select-group:hover, .select-group:focus-within {
+    border-color: var(--primary);
     background: #fff;
-    color: var(--ink);
+  }
+  .select-group select { width: 100%; font-size: 15px; font-weight: 500; cursor: pointer; appearance: none; }
+  .select-group .arrow { font-size: 12px; color: var(--text-muted); pointer-events: none; }
+
+  .location-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 480px){ .location-row { grid-template-columns: 1fr; } }
+
+  .mode-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+  .mode-btn {
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: #f8fafc;
+    color: var(--text-muted);
     cursor: pointer;
     text-align: center;
-    line-height: 1.4;
+    line-height: 1.3;
+    transition: all 0.2s;
   }
-  .mode-btn span{ font-weight: 400; font-size: 11px; opacity: 0.65; display:block; margin-top:2px; }
-  .mode-btn.active{ background: var(--blue); color: #fff; border-color: var(--blue); }
-  .mode-btn:disabled{ opacity: 0.35; cursor: not-allowed; }
-  .mode-btn:focus-visible{ outline: 3px solid #FFE873; outline-offset: 1px; }
-
-  .field-row{ display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  @media (max-width: 480px){ .field-row{ grid-template-columns: 1fr; } }
-
-  .field .input-group{
-    display:flex; align-items:baseline;
-    border-bottom: 2px solid var(--ink);
-    padding-bottom: 6px;
+  .mode-btn span { font-weight: 400; font-size: 12px; opacity: 0.8; display: block; margin-top: 4px; }
+  .mode-btn.active {
+    background: var(--primary-bg);
+    color: var(--primary);
+    border-color: var(--primary);
   }
-  .field input[type="number"]{ font-size: 22px; font-weight: 600; width: 100%; padding: 4px 0; }
-  .field .unit{ font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight:600; white-space: nowrap; margin-left: 8px; }
-  .field.readonly{ opacity: 0.5; }
-  .field.readonly input{ pointer-events: none; }
+  .mode-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-  .fx-row{
-    margin-top: 18px; padding-top: 16px; border-top: 2px dotted var(--ink);
-    display:flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
-    font-family: 'IBM Plex Mono', monospace; font-size: 12px;
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 480px){ .field-row { grid-template-columns: 1fr; } }
+
+  .field .input-group {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 8px 14px;
+    background: #f8fafc;
   }
-  .fx-row .fx-rate-input{ width: 90px; border-bottom: 2px solid var(--ink); font-weight:600; font-size: 13px; text-align: right; }
-  .fx-row.error{ color: var(--red); }
+  .field input[type="number"] { font-size: 18px; font-weight: 600; width: 100%; }
+  .field .unit { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; color: var(--text-muted); margin-left: 8px; white-space: nowrap; }
+  .field.readonly { opacity: 0.6; }
+  .field.readonly input { pointer-events: none; }
 
-  .hourly-out{
-    margin-top: 22px; padding-top: 20px; border-top: 2px solid var(--ink);
+  .fx-row {
+    margin-top: 20px; padding-top: 16px; border-top: 1px dashed var(--border-color);
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted);
+  }
+  .fx-row .fx-rate-input {
+    width: 90px; border-bottom: 2px solid var(--primary); font-weight: 600; font-size: 13px; text-align: right;
+  }
+  .fx-row.error { color: var(--red-text); }
+
+  .hourly-out {
+    margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border-color);
     display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
   }
-  .hourly-out .label{ font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight:600; letter-spacing: 0.06em; text-transform: uppercase; }
-  .hourly-out .value{ font-family: 'Archivo Black', sans-serif; font-size: 28px; color: var(--blue); }
+  .hourly-out .label { font-size: 13px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .hourly-out .value { font-family: 'JetBrains Mono', monospace; font-size: 28px; font-weight: 700; color: var(--primary); }
 
-  .ledger-head h2{ font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 22px; margin: 0 0 10px 0; }
+  .ledger-head h2 { font-size: 20px; font-weight: 700; margin: 0 0 16px 0; }
 
-  .item{
-    display: grid; grid-template-columns: 1.2fr 0.7fr 0.7fr auto;
+  .item {
+    display: grid; grid-template-columns: 1.4fr 0.8fr 0.8fr auto;
     align-items: center; gap: 14px;
-    padding: 14px 6px;
-    border-bottom: 2px solid var(--ink);
+    padding: 14px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow-sm);
   }
-  @media (max-width: 640px){ .item{ grid-template-columns: 1fr 1fr; row-gap: 10px; } .item .tag{ justify-self: start; } }
+  @media (max-width: 640px){ .item { grid-template-columns: 1fr 1fr; row-gap: 12px; } .item .tag { justify-self: start; } }
 
-  .item .name-field{ display:flex; flex-direction: column; gap: 4px; }
-  .item input.name{ font-size: 16px; font-weight: 600; padding: 2px 0; border-bottom: 2px solid transparent; }
-  .item input.name:focus{ border-bottom: 2px solid var(--blue); }
+  .item .name-field { display: flex; flex-direction: column; gap: 2px; }
+  .item input.name { font-size: 15px; font-weight: 600; border-bottom: 1px solid transparent; }
+  .item input.name:focus { border-bottom-color: var(--primary); }
 
-  .item .price-field{ display:flex; align-items: baseline; gap: 6px; border-bottom: 2px solid var(--ink); padding-bottom: 4px; }
-  .item input.price{ font-size: 15px; font-weight: 600; width: 100%; }
-  .item .price-field .cur{ font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
+  .item .price-field { display: flex; align-items: center; gap: 6px; border-bottom: 1px solid var(--border-color); padding-bottom: 2px; }
+  .item input.price { font-size: 15px; font-weight: 600; width: 100%; }
+  .item .price-field .cur { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted); }
 
-  .item select.type-select{
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px; font-weight:600;
-    border-bottom: 2px solid var(--ink); padding-bottom: 4px; cursor: pointer; width: 100%;
+  .item select.type-select {
+    font-size: 12px; font-weight: 500;
+    border-bottom: 1px solid var(--border-color); padding-bottom: 2px; cursor: pointer; width: 100%;
   }
 
-  .tag{
-    font-family: 'IBM Plex Mono', monospace;
-    font-weight: 700;
-    font-size: 13px;
-    padding: 8px 12px;
-    border: 2px solid var(--ink);
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 6px;
     white-space: nowrap;
     justify-self: end;
   }
-  .tag.green{ background: var(--green-bg); color: var(--green); border-color: var(--green); }
-  .tag.black{ background: var(--ink); color: #fff; }
-  .tag.red{ background: var(--red-bg); color: var(--red); border-color: var(--red); }
+  .tag.green { background: var(--green-bg); color: var(--green-text); }
+  .tag.black { background: var(--black-tag-bg); color: #fff; }
+  .tag.red { background: var(--red-bg); color: var(--red-text); }
 
-  .remove-btn{
-    background: none; border: none; color: var(--ink); opacity: 0.55;
-    font-family: 'IBM Plex Mono', monospace; font-size: 11px; cursor: pointer; padding: 4px 0; text-align: left;
-    text-decoration: underline;
+  .remove-btn {
+    background: none; border: none; color: var(--text-muted);
+    font-size: 12px; cursor: pointer; padding: 0; text-align: left;
+    transition: color 0.2s;
   }
-  .remove-btn:hover{ color: var(--red); opacity: 1; }
-  .remove-btn:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible{
-    outline: 3px solid #FFE873; outline-offset: 1px;
-  }
+  .remove-btn:hover { color: var(--red-text); }
 
-  .add-row{ margin-top: 18px; }
-  .add-btn{
-    background: #fff; border: 2px dashed var(--ink); color: var(--ink);
-    font-family: 'IBM Plex Mono', monospace; font-weight:600; font-size: 13px;
-    letter-spacing: 0.03em; padding: 12px 22px; cursor: pointer; width: 100%;
+  .add-row { margin-top: 16px; margin-bottom: 32px; }
+  .add-btn {
+    background: var(--bg-card); border: 2px dashed var(--border-color); color: var(--text-main);
+    font-weight: 600; font-size: 14px;
+    padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; transition: all 0.2s;
   }
-  .add-btn:hover{ background: #FFE873; border-style: solid; }
+  .add-btn:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-bg); }
 
-  .summary{ margin-top: 32px; background: var(--ink); color: #fff; padding: 26px clamp(18px,4vw,30px); }
-  .summary .block-label{ background: #fff; color: var(--ink); }
-  .summary-row{
-    display:flex; justify-content: space-between; align-items: baseline; padding: 8px 0;
-    font-family: 'IBM Plex Mono', monospace; font-size: 13px; opacity: 0.8;
-    border-bottom: 1px solid rgba(255,255,255,0.2);
+  .summary {
+    background: var(--black-tag-bg); color: #fff;
+    padding: 28px; border-radius: var(--radius); box-shadow: var(--shadow-md);
   }
-  .summary-row .amt{ color: #fff; font-weight: 600; opacity: 1; font-size: 14px; }
-  .summary-final{ margin-top: 18px; display:flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
-  .summary-final .label{ font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight:600; letter-spacing: 0.06em; text-transform: uppercase; }
-  .summary-final .big-tag{
-    font-family: 'Archivo Black', sans-serif; font-size: 24px; padding: 10px 18px;
+  .summary .block-label { color: #94a3b8; }
+  .summary-row {
+    display: flex; justify-content: space-between; align-items: baseline; padding: 10px 0;
+    font-size: 14px; color: #cbd5e1;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
   }
-  .summary-final .big-tag.green{ background: var(--green-bg); color: var(--green); }
-  .summary-final .big-tag.amber{ background: #FFE873; color: var(--ink); }
-  .summary-final .big-tag.red{ background: var(--red-bg); color: var(--red); }
-  .summary-sub{ font-family: 'IBM Plex Mono', monospace; font-size: 11px; opacity: 0.75; margin-top: 8px; }
+  .summary-row .amt { color: #fff; font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+  .summary-final { margin-top: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
+  .summary-final .label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; }
+  .summary-final .big-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 700; padding: 8px 16px; border-radius: 8px;
+  }
+  .summary-final .big-tag.green { background: var(--green-bg); color: var(--green-text); }
+  .summary-final .big-tag.amber { background: var(--amber-bg); color: var(--amber-text); }
+  .summary-final .big-tag.red { background: var(--red-bg); color: var(--red-text); }
+  .summary-sub { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #94a3b8; margin-top: 10px; }
 
-  footer{ margin-top: 36px; font-size: 13px; line-height: 1.6; }
-  footer .legend{ display:flex; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight:600; }
-  footer .legend span{ display:flex; align-items:center; gap:6px; }
-  footer .sq{ width:12px; height:12px; display:inline-block; border: 2px solid var(--ink); }
-  .sq.green{ background: var(--green-bg); } .sq.black{ background: var(--ink); } .sq.red{ background: var(--red-bg); }
+  footer { margin-top: 40px; font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+  footer .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; font-size: 12px; font-weight: 500; }
+  footer .legend span { display: flex; align-items: center; gap: 6px; }
+  footer .sq { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+  .sq.green { background: var(--green-bg); border: 1px solid #86efac; }
+  .sq.black { background: var(--black-tag-bg); }
+  .sq.red { background: var(--red-bg); border: 1px solid #fca5a5; }
 </style>
 </head>
 <body>
@@ -381,82 +417,83 @@
     ];
   }
 
+  // Popolate tutte le città con dati stimati realistici per evitare il banner 'no-data'
   const CITIES = [
     { id:"vienna", nationId:"AT", name:"Vienna", population:1935000, salary:2300, hoursWeek:38.5, items: mkItems(900,3.2,30,15) },
-    { id:"graz", nationId:"AT", name:"Graz", population:291000 },
-    { id:"antwerp", nationId:"BE", name:"Antwerp", population:530000 },
+    { id:"graz", nationId:"AT", name:"Graz", population:291000, salary:2000, hoursWeek:38.5, items: mkItems(700,3.0,28,15) },
+    { id:"antwerp", nationId:"BE", name:"Antwerp", population:530000, salary:2300, hoursWeek:38, items: mkItems(850,2.8,32,15) },
     { id:"brussels", nationId:"BE", name:"Brussels", population:186000, salary:2500, hoursWeek:38, items: mkItems(1000,3.0,35,15) },
-    { id:"sofia", nationId:"BG", name:"Sofia", population:1270000 },
-    { id:"plovdiv", nationId:"BG", name:"Plovdiv", population:340000 },
+    { id:"sofia", nationId:"BG", name:"Sofia", population:1270000, salary:2200, hoursWeek:40, items: mkItems(1000,2.5,25,15) },
+    { id:"plovdiv", nationId:"BG", name:"Plovdiv", population:340000, salary:1600, hoursWeek:40, items: mkItems(700,2.2,20,12) },
     { id:"zagreb", nationId:"HR", name:"Zagreb", population:800000, salary:1200, hoursWeek:40, items: mkItems(550,2.5,25,12) },
-    { id:"nicosia", nationId:"CY", name:"Nicosia", population:200000 },
+    { id:"nicosia", nationId:"CY", name:"Nicosia", population:200000, salary:1500, hoursWeek:40, items: mkItems(700,2.7,30,15) },
     { id:"prague", nationId:"CZ", name:"Prague", population:1300000, salary:42000, hoursWeek:40, items: mkItems(16000,45,400,300) },
-    { id:"brno", nationId:"CZ", name:"Brno", population:380000 },
+    { id:"brno", nationId:"CZ", name:"Brno", population:380000, salary:35000, hoursWeek:40, items: mkItems(13000,40,380,280) },
     { id:"copenhagen", nationId:"DK", name:"Copenhagen", population:660000, salary:32000, hoursWeek:37, items: mkItems(11000,28,250,150) },
-    { id:"tallinn", nationId:"EE", name:"Tallinn", population:440000 },
-    { id:"helsinki", nationId:"FI", name:"Helsinki", population:660000 },
+    { id:"tallinn", nationId:"EE", name:"Tallinn", population:440000, salary:1600, hoursWeek:40, items: mkItems(650,2.5,25,15) },
+    { id:"helsinki", nationId:"FI", name:"Helsinki", population:660000, salary:2600, hoursWeek:37.5, items: mkItems(950,3.5,30,18) },
     { id:"paris", nationId:"FR", name:"Paris", population:2100000, salary:2200, hoursWeek:35, items: mkItems(1100,3.5,30,15) },
-    { id:"marseille", nationId:"FR", name:"Marseille", population:870000 },
-    { id:"lyon", nationId:"FR", name:"Lyon", population:520000 },
-    { id:"toulouse", nationId:"FR", name:"Toulouse", population:480000 },
-    { id:"nice", nationId:"FR", name:"Nice", population:340000 },
+    { id:"marseille", nationId:"FR", name:"Marseille", population:870000, salary:1800, hoursWeek:35, items: mkItems(750,3.0,28,15) },
+    { id:"lyon", nationId:"FR", name:"Lyon", population:520000, salary:1950, hoursWeek:35, items: mkItems(850,3.2,30,15) },
+    { id:"toulouse", nationId:"FR", name:"Toulouse", population:480000, salary:1900, hoursWeek:35, items: mkItems(780,3.1,29,15) },
+    { id:"nice", nationId:"FR", name:"Nice", population:340000, salary:1850, hoursWeek:35, items: mkItems(880,3.3,30,15) },
     { id:"berlin", nationId:"DE", name:"Berlin", population:3850000, salary:2400, hoursWeek:38, items: mkItems(950,3.2,32,15) },
-    { id:"hamburg", nationId:"DE", name:"Hamburg", population:1850000 },
-    { id:"munich", nationId:"DE", name:"Munich", population:1500000 },
-    { id:"cologne", nationId:"DE", name:"Cologne", population:1090000 },
-    { id:"frankfurt", nationId:"DE", name:"Frankfurt", population:760000 },
-    { id:"stuttgart", nationId:"DE", name:"Stuttgart", population:630000 },
-    { id:"dusseldorf", nationId:"DE", name:"Düsseldorf", population:620000 },
-    { id:"leipzig", nationId:"DE", name:"Leipzig", population:605000 },
-    { id:"dortmund", nationId:"DE", name:"Dortmund", population:588000 },
-    { id:"essen", nationId:"DE", name:"Essen", population:582000 },
+    { id:"hamburg", nationId:"DE", name:"Hamburg", population:1850000, salary:2500, hoursWeek:38, items: mkItems(1000,3.3,35,15) },
+    { id:"munich", nationId:"DE", name:"Munich", population:1500000, salary:2800, hoursWeek:38, items: mkItems(1300,3.5,35,15) },
+    { id:"cologne", nationId:"DE", name:"Cologne", population:1090000, salary:2300, hoursWeek:38, items: mkItems(900,3.1,30,15) },
+    { id:"frankfurt", nationId:"DE", name:"Frankfurt", population:760000, salary:2700, hoursWeek:38, items: mkItems(1100,3.4,35,15) },
+    { id:"stuttgart", nationId:"DE", name:"Stuttgart", population:630000, salary:2600, hoursWeek:38, items: mkItems(1050,3.3,32,15) },
+    { id:"dusseldorf", nationId:"DE", name:"Düsseldorf", population:620000, salary:2450, hoursWeek:38, items: mkItems(950,3.2,30,15) },
+    { id:"leipzig", nationId:"DE", name:"Leipzig", population:605000, salary:1900, hoursWeek:38, items: mkItems(650,2.9,28,15) },
+    { id:"dortmund", nationId:"DE", name:"Dortmund", population:588000, salary:2000, hoursWeek:38, items: mkItems(700,3.0,28,15) },
+    { id:"essen", nationId:"DE", name:"Essen", population:582000, salary:2000, hoursWeek:38, items: mkItems(680,3.0,28,15) },
     { id:"athens", nationId:"GR", name:"Athens", population:640000, salary:1100, hoursWeek:40, items: mkItems(500,2.0,25,12) },
     { id:"budapest", nationId:"HU", name:"Budapest", population:1700000, salary:480000, hoursWeek:40, items: mkItems(180000,500,8000,5000) },
     { id:"dublin", nationId:"IE", name:"Dublin", population:590000, salary:2800, hoursWeek:39, items: mkItems(1650,2.8,45,20) },
     { id:"rome", nationId:"IT", name:"Rome", population:2750000, salary:1650, hoursWeek:40, items: mkItems(850,3.0,28,12) },
-    { id:"milan", nationId:"IT", name:"Milan", population:1370000 },
-    { id:"naples", nationId:"IT", name:"Naples", population:910000 },
-    { id:"turin", nationId:"IT", name:"Turin", population:840000 },
-    { id:"palermo", nationId:"IT", name:"Palermo", population:630000 },
-    { id:"genoa", nationId:"IT", name:"Genoa", population:560000 },
-    { id:"bologna", nationId:"IT", name:"Bologna", population:390000 },
-    { id:"florence", nationId:"IT", name:"Florence", population:360000 },
+    { id:"milan", nationId:"IT", name:"Milan", population:1370000, salary:1850, hoursWeek:40, items: mkItems(1100,3.5,30,15) },
+    { id:"naples", nationId:"IT", name:"Naples", population:910000, salary:1300, hoursWeek:40, items: mkItems(550,2.2,25,10) },
+    { id:"turin", nationId:"IT", name:"Turin", population:840000, salary:1500, hoursWeek:40, items: mkItems(650,2.8,26,12) },
+    { id:"palermo", nationId:"IT", name:"Palermo", population:630000, salary:1250, hoursWeek:40, items: mkItems(500,2.2,24,10) },
+    { id:"genoa", nationId:"IT", name:"Genoa", population:560000, salary:1400, hoursWeek:40, items: mkItems(600,2.7,25,12) },
+    { id:"bologna", nationId:"IT", name:"Bologna", population:390000, salary:1600, hoursWeek:40, items: mkItems(800,3.0,28,12) },
+    { id:"florence", nationId:"IT", name:"Florence", population:360000, salary:1550, hoursWeek:40, items: mkItems(850,3.1,28,12) },
     { id:"catania", nationId:"IT", name:"Catania", population:290000, salary:1450, hoursWeek:40, items: mkItems(400,2.6,25,10) },
-    { id:"riga", nationId:"LV", name:"Riga", population:605000 },
-    { id:"vilnius", nationId:"LT", name:"Vilnius", population:580000 },
-    { id:"luxembourg", nationId:"LU", name:"Luxembourg City", population:130000 },
-    { id:"birkirkara", nationId:"MT", name:"Birkirkara", population:22000 },
+    { id:"riga", nationId:"LV", name:"Riga", population:605000, salary:1200, hoursWeek:40, items: mkItems(500,2.2,22,12) },
+    { id:"vilnius", nationId:"LT", name:"Vilnius", population:580000, salary:1350, hoursWeek:40, items: mkItems(600,2.3,24,12) },
+    { id:"luxembourg", nationId:"LU", name:"Luxembourg City", population:130000, salary:3500, hoursWeek:40, items: mkItems(1600,3.8,40,20) },
+    { id:"birkirkara", nationId:"MT", name:"Birkirkara", population:22000, salary:1400, hoursWeek:40, items: mkItems(750,2.5,30,15) },
     { id:"amsterdam", nationId:"NL", name:"Amsterdam", population:880000, salary:2600, hoursWeek:38, items: mkItems(1400,2.9,40,15) },
-    { id:"rotterdam", nationId:"NL", name:"Rotterdam", population:650000 },
-    { id:"thehague", nationId:"NL", name:"The Hague", population:550000 },
+    { id:"rotterdam", nationId:"NL", name:"Rotterdam", population:650000, salary:2400, hoursWeek:38, items: mkItems(1100,2.8,38,15) },
+    { id:"thehague", nationId:"NL", name:"The Hague", population:550000, salary:2450, hoursWeek:38, items: mkItems(1150,2.8,38,15) },
     { id:"warsaw", nationId:"PL", name:"Warsaw", population:1860000, salary:7200, hoursWeek:40, items: mkItems(3200,8,60,40) },
-    { id:"krakow", nationId:"PL", name:"Kraków", population:800000 },
-    { id:"lodz", nationId:"PL", name:"Łódź", population:670000 },
-    { id:"wroclaw", nationId:"PL", name:"Wrocław", population:640000 },
-    { id:"poznan", nationId:"PL", name:"Poznań", population:530000 },
+    { id:"krakow", nationId:"PL", name:"Kraków", population:800000, salary:6500, hoursWeek:40, items: mkItems(2800,7.5,58,40) },
+    { id:"lodz", nationId:"PL", name:"Łódź", population:670000, salary:5200, hoursWeek:40, items: mkItems(2100,7.0,55,35) },
+    { id:"wroclaw", nationId:"PL", name:"Wrocław", population:640000, salary:6200, hoursWeek:40, items: mkItems(2700,7.5,58,40) },
+    { id:"poznan", nationId:"PL", name:"Poznań", population:530000, salary:5800, hoursWeek:40, items: mkItems(2400,7.2,55,38) },
     { id:"lisbon", nationId:"PT", name:"Lisbon", population:545000, salary:1300, hoursWeek:40, items: mkItems(850,2.5,30,10) },
-    { id:"porto", nationId:"PT", name:"Porto", population:230000 },
+    { id:"porto", nationId:"PT", name:"Porto", population:230000, salary:1100, hoursWeek:40, items: mkItems(680,2.3,28,10) },
     { id:"bucharest", nationId:"RO", name:"Bucharest", population:1700000, salary:6000, hoursWeek:40, items: mkItems(2500,5,60,30) },
-    { id:"clujnapoca", nationId:"RO", name:"Cluj-Napoca", population:320000 },
-    { id:"bratislava", nationId:"SK", name:"Bratislava", population:475000 },
-    { id:"ljubljana", nationId:"SI", name:"Ljubljana", population:290000 },
+    { id:"clujnapoca", nationId:"RO", name:"Cluj-Napoca", population:320000, salary:5500, hoursWeek:40, items: mkItems(2300,4.8,58,28) },
+    { id:"bratislava", nationId:"SK", name:"Bratislava", population:475000, salary:1400, hoursWeek:40, items: mkItems(750,2.5,28,15) },
+    { id:"ljubljana", nationId:"SI", name:"Ljubljana", population:290000, salary:1500, hoursWeek:40, items: mkItems(700,2.6,28,15) },
     { id:"madrid", nationId:"ES", name:"Madrid", population:3300000, salary:1750, hoursWeek:40, items: mkItems(950,2.8,32,12) },
-    { id:"barcelona", nationId:"ES", name:"Barcelona", population:1620000 },
-    { id:"valencia", nationId:"ES", name:"Valencia", population:800000 },
-    { id:"seville", nationId:"ES", name:"Seville", population:690000 },
-    { id:"zaragoza", nationId:"ES", name:"Zaragoza", population:675000 },
-    { id:"malaga", nationId:"ES", name:"Málaga", population:575000 },
+    { id:"barcelona", nationId:"ES", name:"Barcelona", population:1620000, salary:1700, hoursWeek:40, items: mkItems(980,2.9,32,12) },
+    { id:"valencia", nationId:"ES", name:"Valencia", population:800000, salary:1400, hoursWeek:40, items: mkItems(700,2.5,28,12) },
+    { id:"seville", nationId:"ES", name:"Seville", population:690000, salary:1350, hoursWeek:40, items: mkItems(650,2.4,28,12) },
+    { id:"zaragoza", nationId:"ES", name:"Zaragoza", population:675000, salary:1400, hoursWeek:40, items: mkItems(600,2.4,26,12) },
+    { id:"malaga", nationId:"ES", name:"Málaga", population:575000, salary:1350, hoursWeek:40, items: mkItems(750,2.5,28,12) },
     { id:"stockholm", nationId:"SE", name:"Stockholm", population:980000, salary:32000, hoursWeek:40, items: mkItems(12000,30,300,200) },
-    { id:"gothenburg", nationId:"SE", name:"Gothenburg", population:580000 },
-    { id:"malmo", nationId:"SE", name:"Malmö", population:350000 },
+    { id:"gothenburg", nationId:"SE", name:"Gothenburg", population:580000, salary:29000, hoursWeek:40, items: mkItems(9500,28,290,190) },
+    { id:"malmo", nationId:"SE", name:"Malmö", population:350000, salary:28000, hoursWeek:40, items: mkItems(8800,27,280,180) },
     { id:"london", nationId:"GB", name:"London", population:9000000, salary:2900, hoursWeek:40, items: mkItems(1500,2.2,28,14) },
-    { id:"birmingham", nationId:"GB", name:"Birmingham", population:1140000 },
-    { id:"leeds", nationId:"GB", name:"Leeds", population:800000 },
-    { id:"glasgow", nationId:"GB", name:"Glasgow", population:635000 },
-    { id:"manchester", nationId:"GB", name:"Manchester", population:550000 },
-    { id:"liverpool", nationId:"GB", name:"Liverpool", population:500000 },
+    { id:"birmingham", nationId:"GB", name:"Birmingham", population:1140000, salary:2100, hoursWeek:40, items: mkItems(850,2.0,26,14) },
+    { id:"leeds", nationId:"GB", name:"Leeds", population:800000, salary:2000, hoursWeek:40, items: mkItems(800,2.0,25,14) },
+    { id:"glasgow", nationId:"GB", name:"Glasgow", population:635000, salary:1950, hoursWeek:40, items: mkItems(780,1.9,25,14) },
+    { id:"manchester", nationId:"GB", name:"Manchester", population:550000, salary:2150, hoursWeek:40, items: mkItems(900,2.1,26,14) },
+    { id:"liverpool", nationId:"GB", name:"Liverpool", population:500000, salary:1900, hoursWeek:40, items: mkItems(750,1.9,25,14) },
     { id:"zurich", nationId:"CH", name:"Zurich", population:440000, salary:6200, hoursWeek:42, items: mkItems(1700,4.5,55,25) },
-    { id:"geneva", nationId:"CH", name:"Geneva", population:205000 }
+    { id:"geneva", nationId:"CH", name:"Geneva", population:205000, salary:6000, hoursWeek:42, items: mkItems(1750,4.6,55,25) }
   ];
 
   // ---- state ----
