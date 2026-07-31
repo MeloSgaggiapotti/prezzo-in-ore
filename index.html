@@ -3,445 +3,147 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enough yet?</title>
+<title>Is it enough now?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink: #1B1F2B;
-    --ink-2: #232939;
-    --ink-3: #2B3245;
-    --paper: #F2ECDD;
-    --amber: #E8A33D;
-    --rust: #C1440E;
-    --sage: #6B8F71;
-    --slate: #8A93A6;
-    --line: rgba(242,236,221,0.14);
-    --line-strong: rgba(242,236,221,0.28);
+    --ink: #1B1F2B; --ink-2: #232939; --ink-3: #2B3245;
+    --paper: #F2ECDD; --amber: #E8A33D; --rust: #C1440E; --sage: #6B8F71; --slate: #8A93A6;
+    --line: rgba(242,236,221,0.14); --line-strong: rgba(242,236,221,0.28);
   }
-
   *{ box-sizing: border-box; }
   html,body{ margin:0; padding:0; }
-
   body{
-    background: var(--ink);
-    color: var(--paper);
-    font-family: 'Source Serif 4', serif;
-    min-height: 100vh;
-    padding: clamp(20px, 5vw, 64px) clamp(16px, 6vw, 24px);
-    background-image: linear-gradient(var(--line) 1px, transparent 1px);
-    background-size: 100% 40px;
+    background: var(--ink); color: var(--paper); font-family: 'Source Serif 4', serif;
+    min-height: 100vh; padding: clamp(20px, 5vw, 64px) clamp(16px, 6vw, 24px);
+    background-image: linear-gradient(var(--line) 1px, transparent 1px); background-size: 100% 40px;
   }
-
   .wrap{ max-width: 780px; margin: 0 auto; }
-
-  .eyebrow{
-    font-family: 'Space Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--amber);
-    margin: 0 0 10px 0;
-  }
-
-  h1{
-    font-family: 'Source Serif 4', serif;
-    font-weight: 700;
-    font-size: clamp(32px, 6vw, 52px);
-    line-height: 1.05;
-    margin: 0 0 14px 0;
-    letter-spacing: -0.01em;
-  }
-
-  .sub{
-    color: var(--slate);
-    font-size: clamp(15px, 2vw, 17px);
-    line-height: 1.55;
-    max-width: 58ch;
-    margin: 0 0 32px 0;
-  }
+  .eyebrow{ font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--amber); margin: 0 0 10px 0; }
+  h1{ font-family: 'Source Serif 4', serif; font-weight: 700; font-size: clamp(32px, 6vw, 52px); line-height: 1.05; margin: 0 0 14px 0; letter-spacing: -0.01em; }
+  .sub{ color: var(--slate); font-size: clamp(15px, 2vw, 17px); line-height: 1.55; max-width: 58ch; margin: 0 0 32px 0; }
   .sub strong{ color: var(--paper); font-weight: 600; }
-
-  .notice{
-    background: var(--ink-2);
-    border: 1px dashed var(--line-strong);
-    border-radius: 4px;
-    padding: 12px 16px;
-    font-family: 'Space Mono', monospace;
-    font-size: 12px;
-    line-height: 1.6;
-    color: var(--slate);
-    margin-bottom: 32px;
-  }
+  .notice{ background: var(--ink-2); border: 1px dashed var(--line-strong); border-radius: 4px; padding: 12px 16px; font-family: 'Space Mono', monospace; font-size: 12px; line-height: 1.6; color: var(--slate); margin-bottom: 24px; }
   .notice strong{ color: var(--amber); }
+  .no-data-banner{
+    background: rgba(193,68,14,0.1); border: 1px dashed var(--rust); border-radius: 4px;
+    padding: 12px 16px; font-family: 'Space Mono', monospace; font-size: 12px; line-height: 1.6;
+    color: var(--paper); margin-bottom: 20px; display: none;
+  }
+  .no-data-banner strong{ color: var(--rust); }
 
-  /* ---- City + mode panel ---- */
-  .setup{
-    background: var(--ink-2);
-    border: 1px solid var(--line-strong);
-    border-radius: 4px;
-    padding: 28px clamp(20px, 4vw, 32px);
-    margin-bottom: 24px;
-    position: relative;
-  }
-  .setup::before{
-    content: "LOCATION";
-    position: absolute;
-    top: -10px;
-    left: 24px;
-    background: var(--ink);
-    padding: 0 10px;
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    color: var(--slate);
-  }
+  .setup{ background: var(--ink-2); border: 1px solid var(--line-strong); border-radius: 4px; padding: 28px clamp(20px, 4vw, 32px); margin-bottom: 24px; position: relative; }
+  .setup::before{ content: "LOCATION"; position: absolute; top: -10px; left: 24px; background: var(--ink); padding: 0 10px; font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: var(--slate); }
 
-  .field label{
-    display:block;
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--slate);
-    margin-bottom: 8px;
-  }
+  .field label{ display:block; font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--slate); margin-bottom: 8px; }
+  select, input[type="number"], input[type="text"]{ font-family: 'Space Mono', monospace; background: transparent; color: var(--paper); border: none; outline: none; }
 
-  select, input[type="number"], input[type="text"]{
-    font-family: 'Space Mono', monospace;
-    background: transparent;
-    color: var(--paper);
-    border: none;
-    outline: none;
-  }
-
-  .select-group{
-    display:flex;
-    align-items:center;
-    border-bottom: 1px solid var(--line-strong);
-    padding-bottom: 6px;
-    margin-bottom: 20px;
-  }
-  .select-group select{
-    width: 100%;
-    font-size: 18px;
-    padding: 4px 0;
-    appearance: none;
-    cursor: pointer;
-  }
+  .select-group{ display:flex; align-items:center; border-bottom: 1px solid var(--line-strong); padding-bottom: 6px; margin-bottom: 20px; }
+  .select-group select{ width: 100%; font-size: 18px; padding: 4px 0; appearance: none; cursor: pointer; }
   .select-group select option{ background: var(--ink-2); color: var(--paper); }
   .select-group .arrow{ color: var(--slate); font-size: 12px; }
 
-  .mode-toggle{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 22px;
-  }
-  .mode-btn{
-    font-family: 'Space Mono', monospace;
-    font-size: 13px;
-    padding: 12px 10px;
-    border-radius: 4px;
-    border: 1px solid var(--line-strong);
-    background: transparent;
-    color: var(--slate);
-    cursor: pointer;
-    text-align: center;
-    line-height: 1.4;
-  }
-  .mode-btn.active{
-    border-color: var(--amber);
-    color: var(--amber);
-    background: rgba(232,163,61,0.08);
-  }
+  .location-row{ display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 480px){ .location-row{ grid-template-columns: 1fr; } }
+
+  .mode-toggle{ display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 22px; }
+  .mode-btn{ font-family: 'Space Mono', monospace; font-size: 13px; padding: 12px 10px; border-radius: 4px; border: 1px solid var(--line-strong); background: transparent; color: var(--slate); cursor: pointer; text-align: center; line-height: 1.4; }
+  .mode-btn.active{ border-color: var(--amber); color: var(--amber); background: rgba(232,163,61,0.08); }
+  .mode-btn:disabled{ opacity: 0.35; cursor: not-allowed; }
   .mode-btn:focus-visible{ outline: 2px solid var(--amber); outline-offset: 2px; }
 
-  .field-row{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-  }
+  .field-row{ display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   @media (max-width: 480px){ .field-row{ grid-template-columns: 1fr; } }
 
-  .field .input-group{
-    display:flex;
-    align-items:baseline;
-    border-bottom: 1px solid var(--line-strong);
-    padding-bottom: 6px;
-    transition: border-color .15s ease;
-  }
+  .field .input-group{ display:flex; align-items:baseline; border-bottom: 1px solid var(--line-strong); padding-bottom: 6px; transition: border-color .15s ease; }
   .field .input-group:focus-within{ border-color: var(--amber); }
-  .field input[type="number"]{
-    font-size: 20px;
-    width: 100%;
-    padding: 4px 0;
-  }
-  .field .unit{
-    font-family: 'Space Mono', monospace;
-    font-size: 13px;
-    color: var(--slate);
-    white-space: nowrap;
-    margin-left: 8px;
-  }
+  .field input[type="number"]{ font-size: 20px; width: 100%; padding: 4px 0; }
+  .field .unit{ font-family: 'Space Mono', monospace; font-size: 13px; color: var(--slate); white-space: nowrap; margin-left: 8px; }
   .field.readonly .input-group{ opacity: 0.55; }
   .field.readonly input{ pointer-events: none; }
 
-  .fx-row{
-    margin-top: 18px;
-    padding-top: 16px;
-    border-top: 1px dashed var(--line-strong);
-    display:flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 10px;
-    font-family: 'Space Mono', monospace;
-    font-size: 12px;
-    color: var(--slate);
-  }
-  .fx-row .fx-rate-input{
-    width: 90px;
-    border-bottom: 1px solid var(--line-strong);
-    color: var(--amber);
-    font-size: 13px;
-    text-align: right;
-  }
+  .fx-row{ margin-top: 18px; padding-top: 16px; border-top: 1px dashed var(--line-strong); display:flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-family: 'Space Mono', monospace; font-size: 12px; color: var(--slate); }
+  .fx-row .fx-rate-input{ width: 90px; border-bottom: 1px solid var(--line-strong); color: var(--amber); font-size: 13px; text-align: right; }
   .fx-row.error{ color: var(--rust); }
 
-  .hourly-out{
-    margin-top: 22px;
-    padding-top: 20px;
-    border-top: 1px dashed var(--line-strong);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  .hourly-out .label{
-    font-family: 'Space Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--slate);
-  }
-  .hourly-out .value{
-    font-family: 'Space Mono', monospace;
-    font-size: 26px;
-    font-weight: 700;
-    color: var(--amber);
-  }
+  .hourly-out{ margin-top: 22px; padding-top: 20px; border-top: 1px dashed var(--line-strong); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .hourly-out .label{ font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--slate); }
+  .hourly-out .value{ font-family: 'Space Mono', monospace; font-size: 26px; font-weight: 700; color: var(--amber); }
 
-  /* ---- Ledger ---- */
   .ledger-head{ margin-bottom: 6px; }
-  .ledger-head h2{
-    font-family: 'Source Serif 4', serif;
-    font-size: 20px;
-    font-weight: 600;
-    margin: 0;
-  }
+  .ledger-head h2{ font-family: 'Source Serif 4', serif; font-size: 20px; font-weight: 600; margin: 0; }
 
-  .item{
-    display: grid;
-    grid-template-columns: 1.2fr 0.7fr 0.7fr auto;
-    align-items: center;
-    gap: 14px;
-    padding: 16px 4px;
-    border-bottom: 1px solid var(--line);
-  }
-  @media (max-width: 640px){
-    .item{ grid-template-columns: 1fr 1fr; row-gap: 10px; }
-    .item .stamp{ justify-self: start; }
-  }
-
+  .item{ display: grid; grid-template-columns: 1.2fr 0.7fr 0.7fr auto; align-items: center; gap: 14px; padding: 16px 4px; border-bottom: 1px solid var(--line); }
+  @media (max-width: 640px){ .item{ grid-template-columns: 1fr 1fr; row-gap: 10px; } .item .stamp{ justify-self: start; } }
   .item .name-field{ display:flex; flex-direction: column; gap: 4px; }
-  .item input.name{
-    font-family: 'Source Serif 4', serif;
-    font-size: 17px;
-    font-weight: 600;
-    padding: 2px 0;
-    border-bottom: 1px solid transparent;
-  }
+  .item input.name{ font-family: 'Source Serif 4', serif; font-size: 17px; font-weight: 600; padding: 2px 0; border-bottom: 1px solid transparent; }
   .item input.name:focus{ border-bottom: 1px solid var(--amber); }
-
-  .item .price-field{
-    display:flex;
-    align-items: baseline;
-    gap: 6px;
-    border-bottom: 1px solid var(--line-strong);
-    padding-bottom: 4px;
-  }
+  .item .price-field{ display:flex; align-items: baseline; gap: 6px; border-bottom: 1px solid var(--line-strong); padding-bottom: 4px; }
   .item input.price{ font-size: 16px; width: 100%; }
   .item .price-field .cur{ font-family: 'Space Mono', monospace; color: var(--slate); font-size: 13px; }
-
-  .item select.type-select{
-    font-size: 12px;
-    border-bottom: 1px solid var(--line-strong);
-    padding-bottom: 4px;
-    cursor: pointer;
-    width: 100%;
-  }
+  .item select.type-select{ font-size: 12px; border-bottom: 1px solid var(--line-strong); padding-bottom: 4px; cursor: pointer; width: 100%; }
   .item select.type-select option{ background: var(--ink-2); color: var(--paper); }
 
-  .stamp{
-    font-family: 'Space Mono', monospace;
-    font-weight: 700;
-    font-size: 14px;
-    padding: 8px 14px;
-    border: 2px dashed currentColor;
-    border-radius: 30px;
-    transform: rotate(-3deg);
-    white-space: nowrap;
-    text-align: center;
-    justify-self: end;
-  }
-  .stamp.sage{ color: var(--sage); }
-  .stamp.amber{ color: var(--amber); }
-  .stamp.rust{ color: var(--rust); }
+  .stamp{ font-family: 'Space Mono', monospace; font-weight: 700; font-size: 14px; padding: 8px 14px; border: 2px dashed currentColor; border-radius: 30px; transform: rotate(-3deg); white-space: nowrap; text-align: center; justify-self: end; }
+  .stamp.sage{ color: var(--sage); } .stamp.amber{ color: var(--amber); } .stamp.rust{ color: var(--rust); }
+  @media (prefers-reduced-motion: no-preference){ .stamp{ transition: transform .2s ease; } .item:hover .stamp{ transform: rotate(0deg) scale(1.04); } }
 
-  @media (prefers-reduced-motion: no-preference){
-    .stamp{ transition: transform .2s ease; }
-    .item:hover .stamp{ transform: rotate(0deg) scale(1.04); }
-  }
-
-  .remove-btn{
-    background: none;
-    border: none;
-    color: var(--slate);
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    cursor: pointer;
-    padding: 4px 0;
-    text-align: left;
-  }
+  .remove-btn{ background: none; border: none; color: var(--slate); font-family: 'Space Mono', monospace; font-size: 11px; cursor: pointer; padding: 4px 0; text-align: left; }
   .remove-btn:hover{ color: var(--rust); }
-  .remove-btn:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible{
-    outline: 2px solid var(--amber);
-    outline-offset: 2px;
-  }
+  .remove-btn:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible{ outline: 2px solid var(--amber); outline-offset: 2px; }
 
   .add-row{ margin-top: 18px; display: flex; justify-content: center; }
-  .add-btn{
-    background: transparent;
-    border: 1px dashed var(--line-strong);
-    color: var(--paper);
-    font-family: 'Space Mono', monospace;
-    font-size: 13px;
-    letter-spacing: 0.05em;
-    padding: 12px 22px;
-    border-radius: 4px;
-    cursor: pointer;
-    width: 100%;
-  }
+  .add-btn{ background: transparent; border: 1px dashed var(--line-strong); color: var(--paper); font-family: 'Space Mono', monospace; font-size: 13px; letter-spacing: 0.05em; padding: 12px 22px; border-radius: 4px; cursor: pointer; width: 100%; }
   .add-btn:hover{ border-color: var(--amber); color: var(--amber); }
 
-  /* ---- Summary panel ---- */
-  .summary{
-    margin-top: 36px;
-    background: var(--ink-2);
-    border: 1px solid var(--line-strong);
-    border-radius: 4px;
-    padding: 28px clamp(20px, 4vw, 32px);
-    position: relative;
-  }
-  .summary::before{
-    content: "MONTHLY RECAP";
-    position: absolute;
-    top: -10px;
-    left: 24px;
-    background: var(--ink);
-    padding: 0 10px;
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    color: var(--slate);
-  }
-  .summary-row{
-    display:flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding: 8px 0;
-    font-family: 'Space Mono', monospace;
-    font-size: 13px;
-    color: var(--slate);
-    border-bottom: 1px solid var(--line);
-  }
+  .summary{ margin-top: 36px; background: var(--ink-2); border: 1px solid var(--line-strong); border-radius: 4px; padding: 28px clamp(20px, 4vw, 32px); position: relative; }
+  .summary::before{ content: "MONTHLY RECAP"; position: absolute; top: -10px; left: 24px; background: var(--ink); padding: 0 10px; font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: var(--slate); }
+  .summary-row{ display:flex; justify-content: space-between; align-items: baseline; padding: 8px 0; font-family: 'Space Mono', monospace; font-size: 13px; color: var(--slate); border-bottom: 1px solid var(--line); }
   .summary-row .amt{ color: var(--paper); font-size: 14px; }
-  .summary-final{
-    margin-top: 18px;
-    display:flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 14px;
-  }
-  .summary-final .label{
-    font-family: 'Space Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--slate);
-  }
-  .summary-final .big-stamp{
-    font-family: 'Space Mono', monospace;
-    font-weight: 700;
-    font-size: 22px;
-    padding: 10px 20px;
-    border: 2px dashed currentColor;
-    border-radius: 8px;
-    transform: rotate(-2deg);
-  }
-  .summary-final .big-stamp.sage{ color: var(--sage); }
-  .summary-final .big-stamp.amber{ color: var(--amber); }
-  .summary-final .big-stamp.rust{ color: var(--rust); }
-  .summary-sub{
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    color: var(--slate);
-    margin-top: 6px;
-  }
+  .summary-final{ margin-top: 18px; display:flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
+  .summary-final .label{ font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--slate); }
+  .summary-final .big-stamp{ font-family: 'Space Mono', monospace; font-weight: 700; font-size: 22px; padding: 10px 20px; border: 2px dashed currentColor; border-radius: 8px; transform: rotate(-2deg); }
+  .summary-final .big-stamp.sage{ color: var(--sage); } .summary-final .big-stamp.amber{ color: var(--amber); } .summary-final .big-stamp.rust{ color: var(--rust); }
+  .summary-sub{ font-family: 'Space Mono', monospace; font-size: 11px; color: var(--slate); margin-top: 6px; }
 
-  footer{
-    margin-top: 40px;
-    padding-top: 20px;
-    border-top: 1px solid var(--line);
-    color: var(--slate);
-    font-size: 13px;
-    line-height: 1.6;
-  }
-  footer .legend{
-    display:flex;
-    gap: 18px;
-    flex-wrap: wrap;
-    margin-bottom: 14px;
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-  }
+  footer{ margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--slate); font-size: 13px; line-height: 1.6; }
+  footer .legend{ display:flex; gap: 18px; flex-wrap: wrap; margin-bottom: 14px; font-family: 'Space Mono', monospace; font-size: 11px; }
   footer .legend span{ display:flex; align-items:center; gap:6px; }
   footer .dot{ width:8px; height:8px; border-radius:50%; display:inline-block; }
-  .dot.sage{ background: var(--sage); }
-  .dot.amber{ background: var(--amber); }
-  .dot.rust{ background: var(--rust); }
+  .dot.sage{ background: var(--sage); } .dot.amber{ background: var(--amber); } .dot.rust{ background: var(--rust); }
 </style>
 </head>
 <body>
 
 <div class="wrap">
   <p class="eyebrow">Wages, counted in hours</p>
-  <h1>Enough yet?</h1>
-  <p class="sub">Every price tag is also a number of hours of your life. Pick a city, choose whether you're bringing your own salary or living on the local average, and every expense gets <strong>stamped</strong> with the work-time it really costs.</p>
+  <h1>Is it enough now?</h1>
+  <p class="sub">Every price tag is also a number of hours of your life. Pick a country and a city, choose whether you're bringing your own salary or living on the local average, and every expense gets <strong>stamped</strong> with the work-time it really costs.</p>
 
   <div class="notice">
-    <strong>Note:</strong> the salary and price figures for each city below are illustrative placeholders, not verified statistics. Replace them with real data (Eurostat, Numbeo, national statistics offices) before drawing conclusions. Exchange rates, when needed, are fetched live from the European Central Bank via the free Frankfurter API.
+    <strong>Note:</strong> populations shown are rough, rounded estimates meant to populate the city list — not verified statistics; a few small countries have no city over 300,000 residents, so their capital is included anyway as an exception. Salary and price figures are illustrative placeholders where present. Exchange rates are fetched live from the European Central Bank via the free Frankfurter API.
+  </div>
+
+  <div class="no-data-banner" id="noDataBanner">
+    <strong>No cost-of-living data yet for this city.</strong> Switch to "Bring my own salary" and add your own numbers below — or come back once this city has been filled in.
   </div>
 
   <div class="setup">
-    <div class="field" style="margin-bottom:4px;">
-      <label for="citySelect">City</label>
-      <div class="select-group">
-        <select id="citySelect"></select>
-        <span class="arrow">▾</span>
+    <div class="location-row" style="margin-bottom:4px;">
+      <div class="field">
+        <label for="nationSelect">Country</label>
+        <div class="select-group">
+          <select id="nationSelect"></select>
+          <span class="arrow">▾</span>
+        </div>
+      </div>
+      <div class="field">
+        <label for="citySelect">City</label>
+        <div class="select-group">
+          <select id="citySelect"></select>
+          <span class="arrow">▾</span>
+        </div>
       </div>
     </div>
 
@@ -480,11 +182,7 @@
 
     <div class="fx-row" id="fxRow" style="display:none;">
       <span id="fxLabel">Exchange rate</span>
-      <span>
-        1 <span id="fxFromCode"></span> =
-        <input type="number" class="fx-rate-input" id="fxRateInput" step="0.0001">
-        <span id="fxToCode"></span>
-      </span>
+      <span>1 <span id="fxFromCode"></span> = <input type="number" class="fx-rate-input" id="fxRateInput" step="0.0001"> <span id="fxToCode"></span></span>
     </div>
 
     <div class="hourly-out">
@@ -524,19 +222,71 @@
 <script>
   const CURRENCIES = ["EUR","GBP","CHF","USD","PLN","CZK","HUF","RON","SEK","DKK","NOK","BGN"];
 
+  const NATIONS = [
+    { id:"AT", name:"Austria", currency:"EUR" },
+    { id:"BE", name:"Belgium", currency:"EUR" },
+    { id:"BG", name:"Bulgaria", currency:"BGN" },
+    { id:"HR", name:"Croatia", currency:"EUR" },
+    { id:"CY", name:"Cyprus", currency:"EUR" },
+    { id:"CZ", name:"Czechia", currency:"CZK" },
+    { id:"DK", name:"Denmark", currency:"DKK" },
+    { id:"EE", name:"Estonia", currency:"EUR" },
+    { id:"FI", name:"Finland", currency:"EUR" },
+    { id:"FR", name:"France", currency:"EUR" },
+    { id:"DE", name:"Germany", currency:"EUR" },
+    { id:"GR", name:"Greece", currency:"EUR" },
+    { id:"HU", name:"Hungary", currency:"HUF" },
+    { id:"IE", name:"Ireland", currency:"EUR" },
+    { id:"IT", name:"Italy", currency:"EUR" },
+    { id:"LV", name:"Latvia", currency:"EUR" },
+    { id:"LT", name:"Lithuania", currency:"EUR" },
+    { id:"LU", name:"Luxembourg", currency:"EUR" },
+    { id:"MT", name:"Malta", currency:"EUR" },
+    { id:"NL", name:"Netherlands", currency:"EUR" },
+    { id:"PL", name:"Poland", currency:"PLN" },
+    { id:"PT", name:"Portugal", currency:"EUR" },
+    { id:"RO", name:"Romania", currency:"RON" },
+    { id:"SK", name:"Slovakia", currency:"EUR" },
+    { id:"SI", name:"Slovenia", currency:"EUR" },
+    { id:"ES", name:"Spain", currency:"EUR" },
+    { id:"SE", name:"Sweden", currency:"SEK" },
+    { id:"GB", name:"United Kingdom", currency:"GBP" },
+    { id:"CH", name:"Switzerland", currency:"CHF" }
+  ];
+
+  // population figures are rounded, approximate estimates for scaffolding the list only
   const CITIES = [
+    // Austria
+    { id:"vienna", nationId:"AT", name:"Vienna", population:1935000 },
+    { id:"graz", nationId:"AT", name:"Graz", population:291000 },
+    // Belgium
+    { id:"antwerp", nationId:"BE", name:"Antwerp", population:530000 },
+    { id:"brussels", nationId:"BE", name:"Brussels", population:186000 },
+    // Bulgaria
+    { id:"sofia", nationId:"BG", name:"Sofia", population:1270000 },
+    { id:"plovdiv", nationId:"BG", name:"Plovdiv", population:340000 },
+    // Croatia
+    { id:"zagreb", nationId:"HR", name:"Zagreb", population:800000 },
+    // Cyprus
+    { id:"nicosia", nationId:"CY", name:"Nicosia", population:200000 },
+    // Czechia
+    { id:"prague", nationId:"CZ", name:"Prague", population:1300000 },
+    { id:"brno", nationId:"CZ", name:"Brno", population:380000 },
+    // Denmark
+    { id:"copenhagen", nationId:"DK", name:"Copenhagen", population:660000 },
+    // Estonia
+    { id:"tallinn", nationId:"EE", name:"Tallinn", population:440000 },
+    // Finland
+    { id:"helsinki", nationId:"FI", name:"Helsinki", population:660000 },
+    // France
+    { id:"paris", nationId:"FR", name:"Paris", population:2100000 },
+    { id:"marseille", nationId:"FR", name:"Marseille", population:870000 },
+    { id:"lyon", nationId:"FR", name:"Lyon", population:520000 },
+    { id:"toulouse", nationId:"FR", name:"Toulouse", population:480000 },
+    { id:"nice", nationId:"FR", name:"Nice", population:340000 },
+    // Germany
     {
-      id: "catania", name: "Catania", country: "Italy", currency: "EUR",
-      salary: 1450, hoursWeek: 40,
-      items: [
-        { name: "Average rent (1-bed flat)", price: 400, type: "monthly" },
-        { name: "1 kg of bread", price: 2.6, type: "one-off" },
-        { name: "Home internet", price: 25, type: "monthly" },
-        { name: "Phone plan", price: 10, type: "monthly" }
-      ]
-    },
-    {
-      id: "berlin", name: "Berlin", country: "Germany", currency: "EUR",
+      id:"berlin", nationId:"DE", name:"Berlin", population:3850000,
       salary: 2400, hoursWeek: 38,
       items: [
         { name: "Average rent (1-bed flat)", price: 950, type: "monthly" },
@@ -545,8 +295,55 @@
         { name: "Phone plan", price: 15, type: "monthly" }
       ]
     },
+    { id:"hamburg", nationId:"DE", name:"Hamburg", population:1850000 },
+    { id:"munich", nationId:"DE", name:"Munich", population:1500000 },
+    { id:"cologne", nationId:"DE", name:"Cologne", population:1090000 },
+    { id:"frankfurt", nationId:"DE", name:"Frankfurt", population:760000 },
+    { id:"stuttgart", nationId:"DE", name:"Stuttgart", population:630000 },
+    { id:"dusseldorf", nationId:"DE", name:"Düsseldorf", population:620000 },
+    { id:"leipzig", nationId:"DE", name:"Leipzig", population:605000 },
+    { id:"dortmund", nationId:"DE", name:"Dortmund", population:588000 },
+    { id:"essen", nationId:"DE", name:"Essen", population:582000 },
+    // Greece
+    { id:"athens", nationId:"GR", name:"Athens", population:640000 },
+    // Hungary
+    { id:"budapest", nationId:"HU", name:"Budapest", population:1700000 },
+    // Ireland
+    { id:"dublin", nationId:"IE", name:"Dublin", population:590000 },
+    // Italy
+    { id:"rome", nationId:"IT", name:"Rome", population:2750000 },
+    { id:"milan", nationId:"IT", name:"Milan", population:1370000 },
+    { id:"naples", nationId:"IT", name:"Naples", population:910000 },
+    { id:"turin", nationId:"IT", name:"Turin", population:840000 },
+    { id:"palermo", nationId:"IT", name:"Palermo", population:630000 },
+    { id:"genoa", nationId:"IT", name:"Genoa", population:560000 },
+    { id:"bologna", nationId:"IT", name:"Bologna", population:390000 },
+    { id:"florence", nationId:"IT", name:"Florence", population:360000 },
     {
-      id: "warsaw", name: "Warsaw", country: "Poland", currency: "PLN",
+      id:"catania", nationId:"IT", name:"Catania", population:290000,
+      salary: 1450, hoursWeek: 40,
+      items: [
+        { name: "Average rent (1-bed flat)", price: 400, type: "monthly" },
+        { name: "1 kg of bread", price: 2.6, type: "one-off" },
+        { name: "Home internet", price: 25, type: "monthly" },
+        { name: "Phone plan", price: 10, type: "monthly" }
+      ]
+    },
+    // Latvia
+    { id:"riga", nationId:"LV", name:"Riga", population:605000 },
+    // Lithuania
+    { id:"vilnius", nationId:"LT", name:"Vilnius", population:580000 },
+    // Luxembourg
+    { id:"luxembourg", nationId:"LU", name:"Luxembourg City", population:130000 },
+    // Malta
+    { id:"birkirkara", nationId:"MT", name:"Birkirkara", population:22000 },
+    // Netherlands
+    { id:"amsterdam", nationId:"NL", name:"Amsterdam", population:880000 },
+    { id:"rotterdam", nationId:"NL", name:"Rotterdam", population:650000 },
+    { id:"thehague", nationId:"NL", name:"The Hague", population:550000 },
+    // Poland
+    {
+      id:"warsaw", nationId:"PL", name:"Warsaw", population:1860000,
       salary: 7200, hoursWeek: 40,
       items: [
         { name: "Average rent (1-bed flat)", price: 3200, type: "monthly" },
@@ -555,8 +352,34 @@
         { name: "Phone plan", price: 40, type: "monthly" }
       ]
     },
+    { id:"krakow", nationId:"PL", name:"Kraków", population:800000 },
+    { id:"lodz", nationId:"PL", name:"Łódź", population:670000 },
+    { id:"wroclaw", nationId:"PL", name:"Wrocław", population:640000 },
+    { id:"poznan", nationId:"PL", name:"Poznań", population:530000 },
+    // Portugal
+    { id:"lisbon", nationId:"PT", name:"Lisbon", population:545000 },
+    { id:"porto", nationId:"PT", name:"Porto", population:230000 },
+    // Romania
+    { id:"bucharest", nationId:"RO", name:"Bucharest", population:1700000 },
+    { id:"clujnapoca", nationId:"RO", name:"Cluj-Napoca", population:320000 },
+    // Slovakia
+    { id:"bratislava", nationId:"SK", name:"Bratislava", population:475000 },
+    // Slovenia
+    { id:"ljubljana", nationId:"SI", name:"Ljubljana", population:290000 },
+    // Spain
+    { id:"madrid", nationId:"ES", name:"Madrid", population:3300000 },
+    { id:"barcelona", nationId:"ES", name:"Barcelona", population:1620000 },
+    { id:"valencia", nationId:"ES", name:"Valencia", population:800000 },
+    { id:"seville", nationId:"ES", name:"Seville", population:690000 },
+    { id:"zaragoza", nationId:"ES", name:"Zaragoza", population:675000 },
+    { id:"malaga", nationId:"ES", name:"Málaga", population:575000 },
+    // Sweden
+    { id:"stockholm", nationId:"SE", name:"Stockholm", population:980000 },
+    { id:"gothenburg", nationId:"SE", name:"Gothenburg", population:580000 },
+    { id:"malmo", nationId:"SE", name:"Malmö", population:350000 },
+    // United Kingdom
     {
-      id: "london", name: "London", country: "United Kingdom", currency: "GBP",
+      id:"london", nationId:"GB", name:"London", population:9000000,
       salary: 2900, hoursWeek: 40,
       items: [
         { name: "Average rent (1-bed flat)", price: 1500, type: "monthly" },
@@ -565,8 +388,14 @@
         { name: "Phone plan", price: 14, type: "monthly" }
       ]
     },
+    { id:"birmingham", nationId:"GB", name:"Birmingham", population:1140000 },
+    { id:"leeds", nationId:"GB", name:"Leeds", population:800000 },
+    { id:"glasgow", nationId:"GB", name:"Glasgow", population:635000 },
+    { id:"manchester", nationId:"GB", name:"Manchester", population:550000 },
+    { id:"liverpool", nationId:"GB", name:"Liverpool", population:500000 },
+    // Switzerland
     {
-      id: "zurich", name: "Zurich", country: "Switzerland", currency: "CHF",
+      id:"zurich", nationId:"CH", name:"Zurich", population:440000,
       salary: 6200, hoursWeek: 42,
       items: [
         { name: "Average rent (1-bed flat)", price: 1700, type: "monthly" },
@@ -574,27 +403,29 @@
         { name: "Home internet", price: 55, type: "monthly" },
         { name: "Phone plan", price: 25, type: "monthly" }
       ]
-    }
+    },
+    { id:"geneva", nationId:"CH", name:"Geneva", population:205000 }
   ];
 
   // ---- state ----
+  let currentNationId = "IT";
   let currentCityId = "catania";
   let mode = "local"; // 'local' | 'own'
   let ownSalary = 2000;
   let ownCurrency = "EUR";
   let ownHours = 40;
-  let fxRate = 1;       // 1 ownCurrency = fxRate cityCurrency
-  let fxStatus = "idle"; // idle | loading | ok | error
+  let fxRate = 1;
+  let fxStatus = "idle";
   let items = [];
 
+  function getNation(){ return NATIONS.find(n => n.id === currentNationId); }
   function getCity(){ return CITIES.find(c => c.id === currentCityId); }
+  function cityHasData(city){ return city && typeof city.salary === "number"; }
+  function citiesForNation(nationId){ return CITIES.filter(c => c.nationId === nationId); }
 
   function fmtMoney(amount, currency){
-    try{
-      return new Intl.NumberFormat('en', { style: 'currency', currency }).format(amount);
-    } catch(e){
-      return `${amount.toFixed(2)} ${currency}`;
-    }
+    try{ return new Intl.NumberFormat('en', { style: 'currency', currency }).format(amount); }
+    catch(e){ return `${amount.toFixed(2)} ${currency}`; }
   }
 
   function formatHours(h){
@@ -609,20 +440,16 @@
     return `${sign}${hh}h ${mm}m`;
   }
 
-  function stampClass(h){
-    if(h < 1) return 'sage';
-    if(h <= 8) return 'amber';
-    return 'rust';
-  }
+  function stampClass(h){ if(h < 1) return 'sage'; if(h <= 8) return 'amber'; return 'rust'; }
 
   function loadCityItems(){
     const city = getCity();
-    items = city.items.map(i => ({ ...i }));
+    items = cityHasData(city) ? city.items.map(i => ({ ...i })) : [];
   }
 
   async function fetchFx(){
     const city = getCity();
-    if(ownCurrency === city.currency){
+    if(!cityHasData(city) || ownCurrency === city.currency){
       fxRate = 1; fxStatus = "ok"; render(); return;
     }
     fxStatus = "loading"; render();
@@ -632,47 +459,58 @@
       const data = await res.json();
       const rate = data.rates[city.currency];
       if(typeof rate !== "number") throw new Error("no rate");
-      fxRate = rate;
-      fxStatus = "ok";
-    } catch(e){
-      fxStatus = "error";
-    }
+      fxRate = rate; fxStatus = "ok";
+    } catch(e){ fxStatus = "error"; }
     render();
   }
 
   function hourlyWageLocal(){
     const city = getCity();
-    if(mode === "local"){
+    if(mode === "local" && cityHasData(city)){
       return city.salary / (city.hoursWeek * 4.345);
-    } else {
-      const localSalary = ownSalary * fxRate;
-      return localSalary / (ownHours * 4.345);
     }
+    const localSalary = ownSalary * fxRate;
+    return ownHours > 0 ? localSalary / (ownHours * 4.345) : 0;
   }
 
   function monthlyIncomeLocal(){
     const city = getCity();
-    return mode === "local" ? city.salary : ownSalary * fxRate;
+    if(mode === "local" && cityHasData(city)) return city.salary;
+    return ownSalary * fxRate;
   }
 
-  function populateSelects(){
-    const citySelect = document.getElementById('citySelect');
-    citySelect.innerHTML = CITIES.map(c => `<option value="${c.id}">${c.name}, ${c.country} (${c.currency})</option>`).join('');
-    citySelect.value = currentCityId;
+  function populateNationSelect(){
+    const sel = document.getElementById('nationSelect');
+    sel.innerHTML = NATIONS.map(n => `<option value="${n.id}">${n.name}</option>`).join('');
+    sel.value = currentNationId;
+  }
 
-    const ownCurrencySelect = document.getElementById('ownCurrency');
-    ownCurrencySelect.innerHTML = CURRENCIES.map(c => `<option value="${c}">${c}</option>`).join('');
-    ownCurrencySelect.value = ownCurrency;
+  function populateCitySelect(){
+    const sel = document.getElementById('citySelect');
+    const cities = citiesForNation(currentNationId);
+    sel.innerHTML = cities.map(c => `<option value="${c.id}">${c.name}${cityHasData(c) ? '' : ' (no data yet)'}</option>`).join('');
+    sel.value = currentCityId;
+  }
+
+  function populateOwnCurrencySelect(){
+    const sel = document.getElementById('ownCurrency');
+    sel.innerHTML = CURRENCIES.map(c => `<option value="${c}">${c}</option>`).join('');
+    sel.value = ownCurrency;
   }
 
   function render(){
     const city = getCity();
+    const hasData = cityHasData(city);
 
-    // mode buttons
-    document.getElementById('modeLocal').classList.toggle('active', mode === 'local');
-    document.getElementById('modeOwn').classList.toggle('active', mode === 'own');
+    document.getElementById('noDataBanner').style.display = hasData ? 'none' : 'block';
 
-    // salary/hours fields
+    const modeLocalBtn = document.getElementById('modeLocal');
+    const modeOwnBtn = document.getElementById('modeOwn');
+    modeLocalBtn.disabled = !hasData;
+    if(!hasData && mode === 'local') mode = 'own';
+    modeLocalBtn.classList.toggle('active', mode === 'local');
+    modeOwnBtn.classList.toggle('active', mode === 'own');
+
     const salaryInput = document.getElementById('salary');
     const hoursInput = document.getElementById('hours');
     const salaryField = document.getElementById('salaryField');
@@ -681,7 +519,7 @@
     const ownCurrencyRow = document.getElementById('ownCurrencyRow');
     const fxRow = document.getElementById('fxRow');
 
-    if(mode === 'local'){
+    if(mode === 'local' && hasData){
       salaryInput.value = city.salary;
       hoursInput.value = city.hoursWeek;
       salaryCurrencyUnit.textContent = city.currency;
@@ -697,7 +535,7 @@
       hoursField.classList.remove('readonly');
       ownCurrencyRow.style.display = 'grid';
 
-      if(ownCurrency === city.currency){
+      if(!hasData || ownCurrency === city.currency){
         fxRow.style.display = 'none';
       } else {
         fxRow.style.display = 'flex';
@@ -706,24 +544,17 @@
         document.getElementById('fxToCode').textContent = city.currency;
         const fxLabel = document.getElementById('fxLabel');
         const fxInput = document.getElementById('fxRateInput');
-        if(fxStatus === 'loading'){
-          fxLabel.textContent = 'Fetching live rate…';
-        } else if(fxStatus === 'error'){
-          fxLabel.textContent = 'Couldn\'t fetch live rate — enter manually:';
-        } else {
-          fxLabel.textContent = 'Exchange rate (live, ECB)';
-        }
-        if(document.activeElement !== fxInput){
-          fxInput.value = fxRate;
-        }
+        if(fxStatus === 'loading') fxLabel.textContent = 'Fetching live rate…';
+        else if(fxStatus === 'error') fxLabel.textContent = "Couldn't fetch live rate — enter manually:";
+        else fxLabel.textContent = 'Exchange rate (live, ECB)';
+        if(document.activeElement !== fxInput) fxInput.value = fxRate;
       }
     }
 
-    // hourly wage
     const wage = hourlyWageLocal();
-    document.getElementById('hourlyRate').textContent = `${fmtMoney(wage, city.currency)} / h`;
+    const displayCurrency = hasData ? city.currency : ownCurrency;
+    document.getElementById('hourlyRate').textContent = wage > 0 ? `${fmtMoney(wage, displayCurrency)} / h` : '—';
 
-    // items
     const itemsEl = document.getElementById('items');
     itemsEl.innerHTML = '';
     items.forEach((item, idx) => {
@@ -737,7 +568,7 @@
           <button class="remove-btn" data-idx="${idx}" aria-label="Remove expense">remove</button>
         </div>
         <div class="price-field">
-          <span class="cur">${city.currency}</span>
+          <span class="cur">${displayCurrency}</span>
           <input class="price" type="number" min="0" step="0.5" value="${item.price}" data-idx="${idx}" data-field="price" aria-label="Price">
         </div>
         <select class="type-select" data-idx="${idx}" aria-label="Expense frequency">
@@ -759,16 +590,12 @@
     });
     itemsEl.querySelectorAll('select.type-select').forEach(sel => {
       sel.addEventListener('change', (e) => {
-        const idx = parseInt(e.target.dataset.idx);
-        items[idx].type = e.target.value;
+        items[parseInt(e.target.dataset.idx)].type = e.target.value;
         renderStampsAndSummary();
       });
     });
     itemsEl.querySelectorAll('.remove-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        items.splice(parseInt(e.target.dataset.idx), 1);
-        render();
-      });
+      btn.addEventListener('click', (e) => { items.splice(parseInt(e.target.dataset.idx), 1); render(); });
     });
 
     renderSummary();
@@ -776,33 +603,36 @@
 
   function renderStampsAndSummary(){
     const city = getCity();
+    const hasData = cityHasData(city);
     const wage = hourlyWageLocal();
-    document.getElementById('hourlyRate').textContent = `${fmtMoney(wage, city.currency)} / h`;
+    const displayCurrency = hasData ? city.currency : ownCurrency;
+    document.getElementById('hourlyRate').textContent = wage > 0 ? `${fmtMoney(wage, displayCurrency)} / h` : '—';
     const rows = document.querySelectorAll('#items .item');
     rows.forEach((row, idx) => {
       const item = items[idx];
       const hours = wage > 0 ? item.price / wage : 0;
-      const cls = stampClass(hours);
       const stampEl = row.querySelector('.stamp');
       stampEl.textContent = `≈ ${formatHours(hours)}`;
-      stampEl.className = `stamp ${cls}`;
+      stampEl.className = `stamp ${stampClass(hours)}`;
     });
     renderSummary();
   }
 
   function renderSummary(){
     const city = getCity();
+    const hasData = cityHasData(city);
+    const displayCurrency = hasData ? city.currency : ownCurrency;
     const wage = hourlyWageLocal();
     const income = monthlyIncomeLocal();
     const recurring = items.filter(i => i.type === 'monthly').reduce((s,i) => s + i.price, 0);
     const leftover = income - recurring;
     const leftoverHours = wage > 0 ? leftover / wage : 0;
 
-    document.getElementById('sumIncome').textContent = fmtMoney(income, city.currency);
-    document.getElementById('sumExpenses').textContent = fmtMoney(recurring, city.currency);
+    document.getElementById('sumIncome').textContent = fmtMoney(income, displayCurrency);
+    document.getElementById('sumExpenses').textContent = fmtMoney(recurring, displayCurrency);
 
     const stampEl = document.getElementById('sumLeftover');
-    stampEl.textContent = fmtMoney(leftover, city.currency);
+    stampEl.textContent = fmtMoney(leftover, displayCurrency);
     const ratio = income > 0 ? leftover / income : 0;
     stampEl.className = 'big-stamp ' + (ratio < 0 ? 'rust' : (ratio < 0.15 ? 'amber' : 'sage'));
 
@@ -810,22 +640,33 @@
       `That's about ${formatHours(leftoverHours)} of work${leftover < 0 ? " you're short each month" : " worth of margin each month"}.`;
 
     const hoursEl = document.getElementById('sumLeftoverOwn');
-    if(mode === 'own' && ownCurrency !== city.currency && fxRate > 0){
-      const leftoverOwn = leftover / fxRate;
-      hoursEl.textContent = `Equivalent to roughly ${fmtMoney(leftoverOwn, ownCurrency)} in your own currency.`;
+    if(mode === 'own' && hasData && ownCurrency !== city.currency && fxRate > 0){
+      hoursEl.textContent = `Equivalent to roughly ${fmtMoney(leftover / fxRate, ownCurrency)} in your own currency.`;
     } else {
       hoursEl.textContent = '';
     }
   }
 
   // ---- events ----
+  document.getElementById('nationSelect').addEventListener('change', (e) => {
+    currentNationId = e.target.value;
+    const cities = citiesForNation(currentNationId);
+    currentCityId = cities[0].id;
+    populateCitySelect();
+    loadCityItems();
+    if(mode === 'own') fetchFx(); else render();
+  });
+
   document.getElementById('citySelect').addEventListener('change', (e) => {
     currentCityId = e.target.value;
     loadCityItems();
     if(mode === 'own') fetchFx(); else render();
   });
 
-  document.getElementById('modeLocal').addEventListener('click', () => { mode = 'local'; render(); });
+  document.getElementById('modeLocal').addEventListener('click', () => {
+    if(document.getElementById('modeLocal').disabled) return;
+    mode = 'local'; render();
+  });
   document.getElementById('modeOwn').addEventListener('click', () => { mode = 'own'; fetchFx(); });
 
   document.getElementById('salary').addEventListener('input', (e) => {
@@ -838,14 +679,9 @@
     ownHours = parseFloat(e.target.value) || 1;
     renderStampsAndSummary();
   });
-  document.getElementById('ownCurrency').addEventListener('change', (e) => {
-    ownCurrency = e.target.value;
-    fetchFx();
-  });
+  document.getElementById('ownCurrency').addEventListener('change', (e) => { ownCurrency = e.target.value; fetchFx(); });
   document.getElementById('fxRateInput').addEventListener('input', (e) => {
-    fxRate = parseFloat(e.target.value) || 0;
-    fxStatus = 'ok';
-    renderStampsAndSummary();
+    fxRate = parseFloat(e.target.value) || 0; fxStatus = 'ok'; renderStampsAndSummary();
   });
 
   document.getElementById('addItem').addEventListener('click', () => {
@@ -854,7 +690,9 @@
   });
 
   // ---- init ----
-  populateSelects();
+  populateNationSelect();
+  populateCitySelect();
+  populateOwnCurrencySelect();
   loadCityItems();
   render();
 </script>
